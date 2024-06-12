@@ -4,11 +4,11 @@ Care Opinion is a website for people to share their experiences of health and ca
 
 # What are Care Opinion Storyboards?
 
-Care Opinion Storyboards summarise the experiences of people using health and care services shared on Care Opinion. They are primarily intended to help NHS organisations understand the experience of service users including the main themes and how experience changes over time. Storyboards are produced by the Data, Measurement & Business Intellgence team in Healthcare Improvment Scotland with support of Care Opinion under the Creative Commons licence for non-commercial re-use. 
+Care Opinion Storyboards summarise the experiences of people using health and care services shared on Care Opinion. They are primarily intended to help NHS organisations understand the experience of service users including the main themes and how experience changes over time. Storyboards are produced by the Data, Measurement & Business Intelligence team in Healthcare Improvement Scotland with support of Care Opinion under the Creative Commons licence for non-commercial re-use. 
 
-Care Opinion provide access to the raw data of published stories, responses, tags, healthservices and treatment, through an API, among other ways. A subscription is required to use the API. The API will provide access to the same set of stories and responses as your subscription.
+Care Opinion provide access to the raw data of published stories, responses, tags, health services and treatment, through an API, among other ways. A subscription is required to use the API. The API will provide access to the same set of stories and responses as your subscription.
 
-See this example - https://timnorwood.github.io/storyboard/storyboard_example.html.
+See this example - https://timnorwood.github.io/careopinionstoryboard/storyboard_example.html.
 
 # How is feedback summarised?
 
@@ -40,7 +40,7 @@ Lookup files are used by Get stories to group the subject of feedback (e.g. staf
 # Getting started
 
 1. Download or fork a copy of files.
-2. Request an 'API key for use in HTTP header' from Care Opinion. Sign in and go to https://www.careopinion.org.uk/mysubscriptions
-3. Save your API key to your .Renviron file in the format API2key = "SUBSCRIPTION_KEY youruniquelettersandnumbershere". This file can usually be found your Windows Documents folder. You can also edit it from Rstudio using usethis::edit_r_environ().
-3. Open the Example monthly update script. Change the Getfrom data to at least one year prior. In future updates this can be two months prior so it runs faster. Check the other parameters and amend these as required. Organisation and service codes used by Care Opinion can be found in the url of searches (e.g. the url for a search of stories about NHS Grampian is https://www.careopinion.org.uk/opinions?nacs=SN9)
+2. Request an 'API key for use in HTTP header' from Care Opinion. To do this sign in to the Care Opinion website and go to https://www.careopinion.org.uk/mysubscriptions
+3. Save your API key to your .Renviron file in the format: API2key = "SUBSCRIPTION_KEY youruniquelettersandnumbershere". This file can usually be found your Windows Documents folder. You can also edit it from Rstudio using usethis::edit_r_environ().
+3. Open the Example monthly update script. Change the Getfrom data to at least one year prior. It will take around an hour to get one year of data but 12 months needed for some charts. In future updates this can be two months prior so it runs faster. Check the other parameters and amend these as required. Organisation and service codes used by Care Opinion can be found in the url of searches (e.g. the url for a search of stories about NHS Grampian is https://www.careopinion.org.uk/opinions?nacs=SN9)
 4. Run the full Example monthly update script. If it's successful, storyboards will be saved in the output folder.
