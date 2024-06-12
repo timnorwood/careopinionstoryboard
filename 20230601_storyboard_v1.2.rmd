@@ -1,0 +1,268 @@
+---
+output: 
+  flexdashboard::flex_dashboard:
+    logo: images//COlogo.png
+    css: images//theme-COstoryboard.css
+    navbar:
+      - { 
+      title: "Scotland Storyboard", 
+      logo: ion-outline, 
+      href: "https://www.careopinionstoryboard.dx.am/scotland_storyboard.html", 
+      target: blank, align: right 
+      }
+params:
+  hdr: hdr
+  shpName: shpName
+  label : label
+  #POname : POname
+  DataFrom: !r as.Date("2018-01-01")
+  page_groups : page_groups
+  CloudsFrom: !r as.Date("2020-12-01") 
+---
+
+---
+title: `r params$hdr`
+---
+
+```{=html}
+<script>
+$('.navbar-logo').wrap('<a href="https://www.careopinion.org.uk/" target=_blank>');
+</script>
+```
+
+<!-- <div class="alert alert-custom"> -->
+<!-- <strong>Please note!</strong> From June 2024, we will no longer be updating Storyboards due to limited capacity in our team and competing demands. If this changes we may be able to resume updates in the future, but for now, thank you for your interest and I hope you found them useful. -->
+<!-- </div> -->
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(scales)
+library(knitr)
+library(ggbeeswarm)
+library(d3wordcloud)
+library(readxl)
+library(plotly)
+
+#opts_knit$set(root.dir="N:\\Evidence\\DMBI\\Care Opinion") #changes root directory in next chunk
+label = params$label
+DataFrom = params$DataFrom
+#POname = params$POname
+shpName = params$shpName
+page_groups = params$page_groups
+cloudsFrom = params$CloudsFrom #one year
+cloudsFromTxt = strftime(cloudsFrom, "%b %Y")
+```
+
+```{r setup2, include=FALSE}
+source('SPC charts9.R', echo=TRUE) #Run Control chart function
+source('Run charts6.R', echo=TRUE) #Run Run chart function
+source('SelectRunChart.R', echo=TRUE) #Run Select run chart function
+source('Download button.R', echo=TRUE) #For p-chart download button
+
+#critColours <- c("#D5E2E9","#ADCEA1","#D85677","#933B51","#602635","#442734","#38161E")
+
+critColours <- c("#D5E2E9","#ADCEA1","#d86477","#d86477","#d86477","#310C12","#100406")
+
+########### storyFrame ######################
+#storyFrame$Date = as.Date(storyFrame$Date, format = "%Y-%m-%d") # change Date from factor to date
+storyFrame = storyFrame[storyFrame$Date > DataFrom,]
+storyFrame$Story = gsub("tramadol", "tram", storyFrame$Story, ignore.case = TRUE)
+
+storyFrame$polaritycol = "gray"
+storyFrame$polaritycol[storyFrame$tagPolSum > 0] = "darkgreen"
+storyFrame$polaritycol[storyFrame$tagPolSum < 0] = "red"
+
+storyFrame$Story <- gsub("&nbsp;", " ", storyFrame$Story) #Remove html spaces
+storyFrame$Story <- gsub("<.*?>", " ", storyFrame$Story) #Remove html tags
+
+# Check out TextClean package
+
+
+############ tagFrame ##################
+#tagFrame$Date = as.Date(tagFrame$Date, format = "%Y-%m-%d") # change Date from factor to date
+
+#Select tag dated after specified date and before current month
+tagFrame = tagFrame[tagFrame$Date > DataFrom & tagFrame$Date < paste(strftime(Sys.Date(), "%Y-%m"), "-01", sep = ""),] 
+
+tagFrame$YearMonth = strftime(tagFrame$Date, "%Y-%m")  # Create YearMonth date as string
+tagFrame$positive = ifelse(tagFrame$polarity == 1, c(1), c(0)) # 1 for positve tags o for everything else
+tagFrame$posneg = ifelse(tagFrame$polarity == 1 | tagFrame$polarity == -1,  c(1), c(0)) # 1 for positve or negative tags o for neutral
+
+
+############ allFrame #############
+allFrame = merge(storyFrame,tagFrame, by.x="PostID", by.y="PostID")
+# allFrame = allFrame[,c("PostID","Date.y", "NACS", "NACSgroup", "NACorg", "tagGroup", "tagName","polarity","Story","criticality","Title")]
+# allFrame = unique(allFrame) # this essentially removes NACSname e.g. different specialties within NACSgroup
+
+allFrame = allFrame %>% 
+  left_join(serviceFrameSC
+            #, by = c("NACS" = "nacs")
+            )
+
+
+```
+
+# All stories {.storyboard}
+
+### P chart of percentage tags that are positive
+
+```{r pchartsetup, include=FALSE}
+#Percent positive tags per YearMonth
+WeekFrame = aggregate(cbind(tagFrame$positive, tagFrame$posneg) ~ tagFrame$YearMonth, FUN = sum)
+colnames(WeekFrame) = c("Month", "Positive","All")
+WeekFrame$Proportion = WeekFrame$Positive/WeekFrame$All
+WeekFrame = WeekFrame[WeekFrame$All != 0,] # Remove months with no positive or negative stories causing NAs
+
+chartTitle = paste("Percentage of rated tags that are positive | ", label, sep = "")
+o = WeekFrame$Proportion * WeekFrame$All
+d = WeekFrame$All
+w = WeekFrame$Month
+ControlChart(o,d,w,"p", chartTitle, "Percentage", "Month", 100, 1)
+
+library(plotly)
+g = ggplot2::last_plot() + 
+  scale_y_continuous(labels = label_percent(suffix = "")) + 
+  coord_cartesian(ylim = c(max(min(WeekFrame$Proportion)*0.66,0), min(max(WeekFrame$Proportion)*1.3,1)))
+gg = plotly_build(g)
+for (count in c(1:length(gg$x$data))){
+#gg$x$data[[count]]$text <- ""
+gg$x$data[[count]]$text <- paste("Month:",w,"<br>Percentage:",round((gg$x$data[[count]]$y)*100,1),"<br>Number tags:",d)
+}
+
+gg$x$data[[1]]$name <- "Mean"
+gg$x$data[[2]]$name <- "Upper warning limit"
+gg$x$data[[3]]$name <- "Upper control limit"
+gg$x$data[[4]]$name <- "Lower warning limit"
+gg$x$data[[5]]$name <- "Lower control limit"
+gg$x$data[[6]]$name <- "Baseline"
+gg$x$data[[7]]$name <- "BL upper control limit"
+gg$x$data[[8]]$name <- "BL upper control limit"
+gg$x$data[[9]]$name <- "BL lower control limit"
+gg$x$data[[10]]$name <- "BL lower control limit"
+gg$x$data[[11]]$name <- "Monthly Percentage"
+gg$x$data[[12]]$name <- "Highlight"
+
+```
+
+```{r pchart}
+if (length(gg$x$data)>1) {
+for (count in c(2:length(gg$x$data))){
+gg$x$data[[count]]$mode = "lines"
+}
+gg$x$data[[count]]$mode = "markers"
+}
+gg %>%
+  config(modeBarButtonsToAdd = list(dl_button))
+```
+
+------------------------------------------------------------------------
+
+**Are stories becoming more positive?**
+
+In this chart the percentage of positive tags are plotted for each month. See [About](#about) for more about tags. By making this a control chart, any changes in the central percentage or unusual variation can be detected. A p chart is the most appropriate chart for percentages and change or variation is detected by looking for these features:
+
+1.  A single point outside the (3 sigma) control limits.
+2.  Eight consecutive points above or below the centreline.
+3.  Six consecutive points increasing or decreasing.
+4.  Two out of three consecutuve points in the outer one-third (2 to 3 sigma).
+5.  Fifteen consecutive points in the inner one third.
+
+The first 20 months are used to calculate the centreline. New centrelines are calculated from where eight consecutive points are above or below the centreline.
+
+### Swarm plot of areas of improvement in critical stories by location from `r strftime(cloudsFrom, "%b %Y")`
+
+```{r}
+allFrame$criticality <- factor(allFrame$criticality, 
+          levels = c("not known","not critical", "minimally critical", "mildly critical",
+                     "moderately critical", "strongly critical", "severely critical")) #Set the order of criticality
+
+n = allFrame %>% 
+ # mutate(criticality = fct_relevel(criticality,(c("not known","not critical", "minimally critical", "mildly critical",
+ #                    "moderately critical", "strongly critical", "severely critical")))) %>%
+  filter(criticality %in% c("moderately critical", "strongly critical", "severely critical"),
+         #NACorg == POname,
+         polarity == "-1",
+         !tagGroup %in% c("Cause of disease", "Emotion", "Condition","Part of body"),
+         !is.na(tagClass),
+         Date.y > cloudsFrom) %>%
+  mutate(NACS = as.character(NACS),
+         tagName = factor(tagName, levels = unique(c(levels(tagName),"Unclassified")))
+         ) %>%
+  mutate(#NACS = ifelse(NACorg != POname, " Hospitals and facilities elsewhere", NACS),
+         NACS = ifelse(NACS == "", shpName, NACS), # Replace blank NACS with NHS board name
+         NACS = ifelse(is.na(name), NACS, name), # Replace NACS codes with hospital names from serviceData
+         #tagName = factor(if_else(is.na(tagClass), "Unclassified", as.character(tagName)), 
+         #           levels = levels(tagName))
+         ) %>%
+  distinct(PostID, Date.y, NACS, tagName, criticality, Title)   %>% # tagGroup removed 200813
+  #arrange(desc(criticality)) #this is so that dots are plotted with more serious in the middle
+  arrange(desc(criticality), NACS, desc(tagName),PostID, Date.y)
+
+
+names(critColours) <- levels(n$criticality) # put names to the colours
+
+gg = ggplot(n,aes(NACS,tagName, colour = criticality)) +   
+  geom_beeswarm() +
+  theme(axis.text.x=element_text(angle = 90, hjust = 1), panel.background = element_rect(fill = "transparent"),
+        legend.title=element_blank()) +
+  xlab("") + ylab("") +
+  scale_colour_manual(name = "grp",values = critColours) + coord_flip()
+
+gg <- plotly_build(gg) %>% layout(legend=list(title=list(text=NA)))
+s = sort(unique(n$criticality)) #position in factorlist of used criticality scores
+tx = n %>%
+  arrange( desc(criticality), NACS, desc(tagName),PostID, Date.y) %>%
+  select(Date.y, Title,NACS, tagName, criticality)
+
+for (i in 1:length(s)){
+gg$x$data[[i]]$text <- paste("Date:",tx$Date.y[tx$criticality == s[i]],"<br>", tx$Title[tx$criticality == s[i]],"<br>", tx$criticality[tx$criticality == s[i]],"<br>", tx$NACS[tx$criticality == s[i]],"<br>", tx$tagName[tx$criticality == s[i]])
+}
+
+gg
+
+```
+
+------------------------------------------------------------------------
+
+**What are the main issues being raised in stories with some critical feedback?**
+
+Review the issues being highlighted in stories with some critical content. This should make it easy to identify recurring issues being fed-back about one location.
+
+```{r run-out, include=FALSE}
+out = NULL
+options(knitr.duplicate.label = 'allow')
+
+for (page_group in page_groups) {
+out = c(out, knit_child('20230608_storyboard_pages.Rmd'))
+}
+```
+
+`r paste(knit_child(text = out), collapse = '')`
+
+# About
+
+<h4><b>What are Care Opinion Storyboards?</b></h4>
+
+Care Opinion Storyboards summarise the experiences of people using health and care services shared on [Care Opinion](https://www.careopinion.org.uk). They are primarily intended to help NHS organisations understand the experience of service users including the main themes and how experience changes over time. Storyboards are produced by [Healthcare Improvement Scotland](www.https://www.healthcareimprovementscotland.org/) with support of Care Opinion and under the Creative Commons licence for non-commercial re-use.
+
+<h4><b>How is feedback summarised?</b></h4>
+
+Every person who tells their story on Care Opinion is asked to create tags in response to three questions:
+
+1.  What was good?
+2.  What could be improved?
+3.  How did you feel?
+
+Each tag can be given a negative or positive polarity. If the storyteller chooses not to tag their story moderators may add tags. Tag information about the services used are also recorded with each story and used in this analysis.
+
+Storyboards use a range of charts and visualisations to summarise the tag information.
+
+<h4><b>Where can I find out more?</b></h4>
+
+If you would like to know more please contact the Healthcare Improvment Scotland Data, Measurement and Business Intelligence team at [hcis.DMBI-TEAM\@nhs.scot](mailto:hcis.DMBI-TEAM@nhs.scot){.email}.
+
+<p style="text-align: center; padding: 10px;">
+
+<a href="http://www.healthcareimprovementscotland.org/" target="_blank"> <img src="images/his_logo_grey.jpg" alt="Healthcare Improvement Scotland" style="width:333px;height:100px;"/></a> <a href="http://www.careopinion.org.uk" target="_blank"> <img src="images/co_logo_grey.jpg" alt="Care Opinion" style="width:266px;height:100px;"/></a>
+
+</p>

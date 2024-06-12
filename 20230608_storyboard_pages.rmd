@@ -1,0 +1,147 @@
+
+
+`r page_group` {data-orientation=rows}
+=========================================
+
+Row
+-----------------------------------------
+
+### Are stories becoming more or less positive?
+
+```{r setupSur, include=FALSE}
+
+sf = storyFrame %>% filter(NACSgroup == page_group)
+tf = tagFrame %>% filter(PostID %in% unique(sf$PostID))
+
+gg = SelectRunChart(sf, tf, paste0(label, " | ", page_group))
+
+```
+
+```{r runchart}
+gg
+```
+
+### How do you feel? top 30 tags since `r strftime(cloudsFrom, "%b %Y")`
+
+```{r }
+# Select tag type (e.g emotion) and NACS group and dates
+
+emoFrame = allFrame %>%
+  filter(tagGroup == "Emotion", 
+         NACSgroup == page_group, 
+         Date.y > cloudsFrom
+         ) %>% 
+  distinct(PostID, tagGroup, tagName, NACSgroup) %>% 
+  count(tagName) %>%
+  arrange(desc(n)) %>% 
+  slice_head(n=30)
+
+if (nrow(emoFrame) > 0) {
+
+d3wordcloud(emoFrame$tagName, emoFrame$n, rotate.min = 0, rotate.max = 0, size.scale = "sqrt", tooltip = TRUE, padding = 2)
+#wordcloud2(data = data.frame(word = tagCount$tagName, freq = tagCount$polarity.n)) 
+  
+} else {print("Not enough data")}
+
+
+```
+
+Row
+-----------------------------------------
+
+### What was good? What could be improved? tags since `r strftime(cloudsFrom, "%b %Y")`
+
+```{r}
+posFrame = allFrame %>%
+  filter(polarity == "1",    
+         #!tagGroup %in% c("Emotion","Condition","Part of Body","Cause of disease") #Think CO Bubble charts exclude these
+        tagGroup != "Emotion", NACSgroup == page_group, Date.y> cloudsFrom) %>% 
+  distinct(PostID, tagName, polarity)
+
+negFrame = allFrame %>%
+  filter(polarity == "-1",    
+         #!tagGroup %in% c("Emotion","Condition","Part of Body","Cause of disease") #Think CO Bubble charts exclude these
+        tagGroup != "Emotion", NACSgroup == page_group, Date.y> cloudsFrom) %>% 
+  distinct(PostID, tagName, polarity)
+
+if (nrow(posFrame) > 0 & nrow(negFrame) > 0) {
+
+# Count number of each tag and sum polarity to get overall polarity
+taggy <- aggregate(polarity ~ tagName, data = posFrame, FUN=function(x) c(n = length(x)))
+tpos = head(taggy[order(-taggy$polarity),],10)
+
+taggy <- aggregate(polarity ~ tagName, data = negFrame, FUN=function(x) c(n = length(x)))
+tneg = head(taggy[order(-taggy$polarity),],10)
+
+t = merge(tpos,tneg,by = "tagName", all = "TRUE")
+t = t[,c("tagName", "polarity.x", "polarity.y")]
+colnames(t) = c("tagName", "Positives", "Negatives")
+t$Positives[is.na(t$Positives)] = 0
+t$Negatives[is.na(t$Negatives)] = 0
+t$percentPos = t$Positive-t$Negatives
+t$tagName = factor(t$tagName, levels = t$tagName[order(t$percentPos,decreasing = TRUE)]) #reorder the factor
+
+plot_ly(t, x = ~tagName, y = ~Positives, type = 'bar', name = 'What was good', marker = list(color = 'rgb(175, 206, 148)')) %>%
+  add_trace(y = ~-Negatives, name = 'What could be improved', marker = list(color = 'rgb(173, 65, 87)')) %>%
+  layout(xaxis = list(title = '', tickangle = -45),
+         yaxis = list(title = 'Tags'),
+         barmode = 'relative',
+         margin = list(b = 150),
+         legend = list(x = 0.75, y = 0.95))
+} else {print("Not enough data")}
+```
+
+### Stories since `r strftime(cloudsFrom, "%b %Y")`
+```{r}
+# allFrame$Story <- gsub("<p>|</p>"," ", allFrame$Story)
+# kwicFrame = allFrame %>%
+#   dplyr::rename(Date = Date.y) %>%
+#   filter(NACSgroup == page_group, Date > cloudsFrom) %>%
+#   distinct(PostID, Date, Story)
+# 
+# if (length(kwicFrame$Story) > 0) {
+#    
+# DT::datatable(kwicFrame,
+#   options = list(order = list(0, 'desc'), bPaginate = FALSE), 
+#   rownames = FALSE
+# )
+
+EmFrame = allFrame %>%
+  dplyr::rename(Date = Date.y) %>%
+  filter(tagGroup == "Emotion", NACSgroup == page_group, Date > cloudsFrom) %>% 
+  distinct(PostID, Date, Title, tagName) %>% 
+  group_by(PostID, Date, Title) %>%
+  summarise(Em = paste0(tagName, collapse = ", ")) %>% 
+  ungroup()
+
+posFrame = allFrame %>%
+  dplyr::rename(Date = Date.y) %>%
+  filter(tagGroup != "Emotion", NACSgroup == page_group, Date > cloudsFrom, polarity == 1) %>% 
+  distinct(PostID, Date, Title,tagName) %>% 
+  group_by(PostID, Date, Title) %>%
+  summarise(wwg = paste0(tagName, collapse = ", ")) %>% 
+  ungroup()
+
+negFrame = allFrame %>%
+  dplyr::rename(Date = Date.y) %>%
+  filter(tagGroup != "Emotion", NACSgroup == page_group, Date > cloudsFrom, polarity == -1) %>% 
+  distinct(PostID, Date, Title,tagName) %>%
+  group_by(PostID, Date, Title) %>%
+  summarise(wcbb = paste0(tagName, collapse = ", ")) %>% 
+  ungroup()
+
+DTFrame = EmFrame %>% 
+  full_join(posFrame) %>% 
+  full_join(negFrame) %>%  
+  mutate(PostID = paste0('<a href=\"https://www.careopinion.org.uk/', PostID,'" target="_blank" rel="noopener noreferrer">', PostID,'</a>')) %>% 
+  select(PostID, Date, Title, wwg, wcbb, Em)
+
+if (length(DTFrame$PostID) > 0) {
+  DT::datatable(DTFrame,
+                options = list(searchHighlight = TRUE, order = list(0, 'desc'), bPaginate = FALSE), 
+                colnames = c("PostID", "Date", "Title", "What was good?","What could be improved?","How did you feel?"),
+                rownames = FALSE,
+                escape = FALSE)
+
+} else {print("Not enough tags")}
+```
