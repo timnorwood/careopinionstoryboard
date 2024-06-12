@@ -24,10 +24,23 @@ Tag information about the services used are also recorded with each story and us
 
 # The R scripts
 
-Storyboards have been created using R and the Flexdashboard package. There are three main script in this respository:
+Storyboards have been created using R and the Flexdashboard package. The main scripts in this respository are:
 
-- GetStories: Reads data from Care Opinion using the API(s). You need a Care Opinion subscription to use get and API key.
-- Storyboard: Flexdashboard script for creating the storyboards
-- Monthly update: Script to run GetStories and Storyboard and produce storyboards for different NHS boards and hospitals. 
-- SPC: scripts to select and produce run charts and other SPC charts using the standard Healthcare Improvement Scotland approach. Chart selection is based on the number of data points and sample size of data points.
-- Input: Not R script but lookup files for grouping the subject of feedback (e.g. staff, care, access to services) and services used (e.g. surgical, AHP etc).
+- GetStories: Reads data from Care Opinion using the API. You need a Care Opinion subscription to get an API key.
+- Storyboard: Flexdashboard script for creating the storyboards. 
+- (Example) Monthly update: Script to run GetStories and Storyboard and produce storyboards for different NHS boards and hospitals. 
+
+Other scripts include functions and code that are used by the main scripts. These are: 
+
+- Run charts, SPC charts and SelectRunChart: select and produce run charts and other SPC charts using the standard Healthcare Improvement Scotland approach. Chart selection is based on the number of data points and sample size of data points.
+- Storyboard pages and Download button: used by Storyboard to produce pages and download button for p chart
+
+Lookup files are used by Get stories to group the subject of feedback (e.g. staff, care, access to services) and services used (e.g. surgical, AHP etc).
+
+# Getting started
+
+1. Download or fork a copy of files.
+2. Request an 'API key for use in HTTP header' from Care Opinion. Sign in and go to https://www.careopinion.org.uk/mysubscriptions
+3. Save your API key to your .Renviron file in the format API2key = "SUBSCRIPTION_KEY youruniquelettersandnumbershere". This file can usually be found your Windows Documents folder. You can also edit it from Rstudio using usethis::edit_r_environ().
+3. Open the Example monthly update script. Change the Getfrom data to at least one year prior. In future updates this can be two months prior so it runs faster. Check the other parameters and amend these as required. Organisation and service codes used by Care Opinion can be found in the url of searches (e.g. the url for a search of stories about NHS Grampian is https://www.careopinion.org.uk/opinions?nacs=SN9)
+4. Run the full Example monthly update script. If it's successful, storyboards will be saved in the output folder.
