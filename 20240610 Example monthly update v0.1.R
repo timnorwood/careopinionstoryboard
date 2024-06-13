@@ -4,7 +4,7 @@ library(tidyverse)
 #devtools::install_github("jbkunst/d3wordcloud") # To install d3wordcloud from Github (no longer on CRAN)
 
 # Get data from Care Opinion - this can take ~1 hour
-GetFrom = "2024-06-01"
+GetFrom = "2023-06-01"
 source( "20200903 GetStories v3.R")
 
 # Load data

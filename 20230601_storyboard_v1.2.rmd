@@ -43,10 +43,9 @@ library(d3wordcloud)
 library(readxl)
 library(plotly)
 
-#opts_knit$set(root.dir="N:\\Evidence\\DMBI\\Care Opinion") #changes root directory in next chunk
+#opts_knit$set(root.dir="local//folder//address//here") #changes root directory in next chunk
 label = params$label
 DataFrom = params$DataFrom
-#POname = params$POname
 shpName = params$shpName
 page_groups = params$page_groups
 cloudsFrom = params$CloudsFrom #one year
@@ -64,23 +63,14 @@ source('Download button.R', echo=TRUE) #For p-chart download button
 critColours <- c("#D5E2E9","#ADCEA1","#d86477","#d86477","#d86477","#310C12","#100406")
 
 ########### storyFrame ######################
-#storyFrame$Date = as.Date(storyFrame$Date, format = "%Y-%m-%d") # change Date from factor to date
 storyFrame = storyFrame[storyFrame$Date > DataFrom,]
 storyFrame$Story = gsub("tramadol", "tram", storyFrame$Story, ignore.case = TRUE)
-
-storyFrame$polaritycol = "gray"
-storyFrame$polaritycol[storyFrame$tagPolSum > 0] = "darkgreen"
-storyFrame$polaritycol[storyFrame$tagPolSum < 0] = "red"
 
 storyFrame$Story <- gsub("&nbsp;", " ", storyFrame$Story) #Remove html spaces
 storyFrame$Story <- gsub("<.*?>", " ", storyFrame$Story) #Remove html tags
 
-# Check out TextClean package
-
 
 ############ tagFrame ##################
-#tagFrame$Date = as.Date(tagFrame$Date, format = "%Y-%m-%d") # change Date from factor to date
-
 #Select tag dated after specified date and before current month
 tagFrame = tagFrame[tagFrame$Date > DataFrom & tagFrame$Date < paste(strftime(Sys.Date(), "%Y-%m"), "-01", sep = ""),] 
 
@@ -91,15 +81,11 @@ tagFrame$posneg = ifelse(tagFrame$polarity == 1 | tagFrame$polarity == -1,  c(1)
 
 ############ allFrame #############
 allFrame = merge(storyFrame,tagFrame, by.x="PostID", by.y="PostID")
-# allFrame = allFrame[,c("PostID","Date.y", "NACS", "NACSgroup", "NACorg", "tagGroup", "tagName","polarity","Story","criticality","Title")]
-# allFrame = unique(allFrame) # this essentially removes NACSname e.g. different specialties within NACSgroup
 
 allFrame = allFrame %>% 
   left_join(serviceFrameSC
             #, by = c("NACS" = "nacs")
             )
-
-
 ```
 
 # All stories {.storyboard}
@@ -125,23 +111,26 @@ g = ggplot2::last_plot() +
   coord_cartesian(ylim = c(max(min(WeekFrame$Proportion)*0.66,0), min(max(WeekFrame$Proportion)*1.3,1)))
 gg = plotly_build(g)
 for (count in c(1:length(gg$x$data))){
-#gg$x$data[[count]]$text <- ""
 gg$x$data[[count]]$text <- paste("Month:",w,"<br>Percentage:",round((gg$x$data[[count]]$y)*100,1),"<br>Number tags:",d)
 }
 
-gg$x$data[[1]]$name <- "Mean"
-gg$x$data[[2]]$name <- "Upper warning limit"
-gg$x$data[[3]]$name <- "Upper control limit"
-gg$x$data[[4]]$name <- "Lower warning limit"
-gg$x$data[[5]]$name <- "Lower control limit"
-gg$x$data[[6]]$name <- "Baseline"
-gg$x$data[[7]]$name <- "BL upper control limit"
-gg$x$data[[8]]$name <- "BL upper control limit"
-gg$x$data[[9]]$name <- "BL lower control limit"
-gg$x$data[[10]]$name <- "BL lower control limit"
-gg$x$data[[11]]$name <- "Monthly Percentage"
-gg$x$data[[12]]$name <- "Highlight"
-
+# Name variables for data download
+if (length(gg$x$data) == 1) {
+  gg$x$data[[1]]$name <- "Monthly Percentage"
+  } else if (length(gg$x$data) == 12) {
+  gg$x$data[[1]]$name <- "Mean"
+  gg$x$data[[2]]$name <- "Upper warning limit"
+  gg$x$data[[3]]$name <- "Upper control limit"
+  gg$x$data[[4]]$name <- "Lower warning limit"
+  gg$x$data[[5]]$name <- "Lower control limit"
+  gg$x$data[[6]]$name <- "Baseline"
+  gg$x$data[[7]]$name <- "BL upper control limit"
+  gg$x$data[[8]]$name <- "BL upper control limit"
+  gg$x$data[[9]]$name <- "BL lower control limit"
+  gg$x$data[[10]]$name <- "BL lower control limit"
+  gg$x$data[[11]]$name <- "Monthly Percentage"
+  gg$x$data[[12]]$name <- "Highlight"
+}
 ```
 
 ```{r pchart}
