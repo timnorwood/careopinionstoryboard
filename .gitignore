@@ -48,7 +48,7 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 
-# Tim added 20240620: Test ignoring specific files/folder
+# Tim added 20240620: HIS specific files/folders to ignore
 output/
 gitignore/
 data/
