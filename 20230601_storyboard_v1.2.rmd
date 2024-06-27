@@ -14,7 +14,6 @@ params:
   hdr: hdr
   shpName: shpName
   label : label
-  #POname : POname
   DataFrom: !r as.Date("2018-01-01")
   page_groups : page_groups
   CloudsFrom: !r as.Date("2020-12-01") 
@@ -166,10 +165,7 @@ allFrame$criticality <- factor(allFrame$criticality,
                      "moderately critical", "strongly critical", "severely critical")) #Set the order of criticality
 
 n = allFrame %>% 
- # mutate(criticality = fct_relevel(criticality,(c("not known","not critical", "minimally critical", "mildly critical",
- #                    "moderately critical", "strongly critical", "severely critical")))) %>%
   filter(criticality %in% c("moderately critical", "strongly critical", "severely critical"),
-         #NACorg == POname,
          polarity == "-1",
          !tagGroup %in% c("Cause of disease", "Emotion", "Condition","Part of body"),
          !is.na(tagClass),
@@ -177,14 +173,10 @@ n = allFrame %>%
   mutate(NACS = as.character(NACS),
          tagName = factor(tagName, levels = unique(c(levels(tagName),"Unclassified")))
          ) %>%
-  mutate(#NACS = ifelse(NACorg != POname, " Hospitals and facilities elsewhere", NACS),
-         NACS = ifelse(NACS == "", shpName, NACS), # Replace blank NACS with NHS board name
+  mutate(NACS = ifelse(NACS == "", shpName, NACS), # Replace blank NACS with NHS board name
          NACS = ifelse(is.na(name), NACS, name), # Replace NACS codes with hospital names from serviceData
-         #tagName = factor(if_else(is.na(tagClass), "Unclassified", as.character(tagName)), 
-         #           levels = levels(tagName))
          ) %>%
   distinct(PostID, Date.y, NACS, tagName, criticality, Title)   %>% # tagGroup removed 200813
-  #arrange(desc(criticality)) #this is so that dots are plotted with more serious in the middle
   arrange(desc(criticality), NACS, desc(tagName),PostID, Date.y)
 
 
