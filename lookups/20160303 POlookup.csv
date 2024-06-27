@@ -1,0 +1,18 @@
+HealthBoard,POname,center,long,lat,zoom,trim,name,jitter
+AA,sa9,"Ayr, Scotland",-4.6292,55.4586,9,,Ayrshire and Arran,0.03
+BO,sb9,"Selkirk, Scotland",-2.8385,55.5507,9,,Borders,0.03
+DG,sy9,"New Galloway, Scotland",-4.1414,55.0764,8,"coord_map(xlim=c( -5.5, -2.5), ylim=c(54.6, 55.5))",Dumfries and Galloway,0.03
+FI,sf9,"Falkland, Scotland",-3.2064,56.2563,9,"coord_map(xlim=c( -3.8, -2.5), ylim=c(55.9, 56.5))",Fife,0.03
+FV,sv9,"Callander, Scotland",-4.2117,56.2451,9,"coord_map(xlim=c( -4.8, -3.5), ylim=c(55.8, 56.6))",Forth Valley,0.03
+GL,sj9,Glasgow,-4.2518,55.8642,8,"coord_map(xlim=c( -5.0, -4.0), ylim=c(55.6, 56.1))",Greater Glasgow and Clyde,0.015
+GR,sn9,"Huntly, Scotland",-2.7878,57.4459,8,"coord_map(xlim=c( -4.0, -1.5), ylim=c(56.7, 57.8))",Grampian,0.03
+HI,sk9,"Fort William, Scotland",-5.1052,56.8198,7,"coord_map(xlim=c( -7.1, -2.6), ylim=c(55.2, 58.7))",Highland,0.03
+LA,sl9,"Lanark, Scotland",-3.7822,55.6739,8,"coord_map(xlim=c( -4.4, -3.3), ylim=c(55.2, 56.1))",Lanarkshire,0.03
+LO,ss9,Edinburgh,-3.1883,55.9533,9,"coord_map(xlim=c( -4.0, -2.3), ylim=c(55.7, 56.2))",Lothian,0.015
+OR,sr9,"Balfour, Orkney",-2.9108,59.0318,9,"coord_map(xlim=c( -3.5, -2.3), ylim=c(58.7, 59.4))",Orkney,0.03
+SH,sz9,Shetland,-1.2659,60.5297,8,"coord_map(xlim=c( -2.2, -0.4), ylim=c(59.7, 61.0))",Shetland,0.03
+TA,st9,"Blairgowrie, Scotland",-3.3378,56.5894,8,"coord_map(xlim=c( -4.9, -2.2), ylim=c(56.0, 57.0))",Tayside,0.03
+WI,sw9,"Lochmaddy, Scotland",-7.1622,57.6046,8,,Western Isles,0.03
+AS,scot-ambulance,"Fort William, Scotland",-5.1052,56.8198,7,,Scottish Ambulance Service,0.03
+SC,nhs-scotland,"Fort William, Scotland",-5.1052,56.8198,7,,Scotland,0.03
+24,nhs24,"Fort William, Scotland",-5.1052,56.8198,7,,NHS 24,0.03
