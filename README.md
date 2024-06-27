@@ -8,7 +8,7 @@ Care Opinion Storyboards summarise the experiences of people using health and ca
 
 Care Opinion provide access to the raw data of published stories, responses, tags, health services and treatment, through an API, among other ways. A subscription is required to use the API. The API will provide access to the same set of stories and responses as your subscription.
 
-See this example - https://timnorwood.github.io/careopinionstoryboard/storyboard_example.html.
+See this example - https://timnorwood.github.io/careopinionstoryboard/output/storyboard_example.html.
 
 # How is feedback summarised?
 
