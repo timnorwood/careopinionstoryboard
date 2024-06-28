@@ -97,7 +97,8 @@ continue = TRUE
 while(continue){
   #while(skip <= 100000){
   service = GET(paste0(
-    "https://www.careopinion.org.uk/api/v2/healthservices?addedAfter=",GetFrom,"&take=100&skip=",
+    #"https://www.careopinion.org.uk/api/v2/healthservices?type=hospital&addedAfter=",GetFrom,"&take=100&skip=",
+    "https://www.careopinion.org.uk/api/v2/healthservices?type=hospital&take=100&skip=",
     skip),
     add_headers(Authorization = API2key))
 
