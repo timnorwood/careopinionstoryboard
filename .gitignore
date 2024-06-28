@@ -52,6 +52,10 @@ rsconnect/
 output/
 gitignore/
 data/
+!data/2serviceFrameSC_blank.rda
+!data/2tagFrameSC_blank.rda
+!data/2storyFrameSC_blank.rda
+!data/2nacFrameSC_blank.rda
 20200612 Monthly update v3.0.R
 20230919_storyboard_QuadSummary_v0.9.rmd
 20230601_storyboard_topic_v1.3.rmd
