@@ -50,7 +50,7 @@ rsconnect/
 
 # Tim added 20240620: HIS specific files/folders to ignore
 output/
-!data/storyboard_example.html
+!output/storyboard_example.html
 gitignore/
 data/
 !data/2serviceFrameSC_blank.rda
