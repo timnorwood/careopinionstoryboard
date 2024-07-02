@@ -302,7 +302,7 @@ print("Data read and saved!")
 ################ Validate data #######################
 checkFromDate = as.Date("2024-03-01")
 countcheck = storyFrameSC %>% filter(Date >= checkFromDate, Date < today()) %>% count() %>% pull()
-cat('\nAccording to storyFrameSC, the number of submitted stories since', format(checkFromDate,"%d %B %y"),'is', countcheck, '. Check this against Care Opinion site by searching on date but not service (not even NHS Scotland, we want the full subcription data). There are ususally 1 or 2 stories missing from the storyFrameSC each month.')
+cat('\nAccording to storyFrameSC, the number of submitted stories since', format(checkFromDate,"%d %B %y"),'is', countcheck, '. Check this against Care Opinion site by searching on date but not service (not even NHS Scotland, we want the full subcription data e.g. https://www.careopinion.org.uk/opinions?submittedonafter=2024-03-01). There are ususally 1 or 2 stories missing from the storyFrameSC each month.')
 
 
 
