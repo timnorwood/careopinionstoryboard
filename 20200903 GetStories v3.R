@@ -29,6 +29,11 @@ while(continue){
     skip),
     add_headers(Authorization = API2key))
   
+  if(opinions$status_code == 401){ # if status code 401 (no authorisation) then stop
+    cat('\rError 401 (Unauthorised request) when getting stories',skip,"to",skip+99, '. Check you have the right API key') 
+    continue = FALSE
+  }
+  
   if(length(content(opinions)) == 0){ # if there are no stories then stop
     continue = FALSE
   }
@@ -69,7 +74,7 @@ save(storyData, file = "data\\2storyData.rda")
 tagsData = NULL
 
 for (id in sort(storyData$PostID)) {
-  cat('\r Getting tag information for ',id)
+  cat('\rGetting tag information for ',id)
   tags = GET(paste0("https://www.careopinion.org.uk/api/v2/opinions/",id,"/tags"),
              add_headers(Authorization = API2key))
   tagsdf = data.frame(PostID = rep(id,length(content(tags))),
