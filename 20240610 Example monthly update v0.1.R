@@ -34,7 +34,7 @@ renderHBStoryboard <- function(hdr, label, shpName, OutName) {
     output_file =  paste0("output//",OutName))
 }
 
-# Storyboard for stories about a NHS board - Change for you organisation
+# Storyboard for stories about a NHS board - Change for your organisation
 storyIDs = storyFrameSC$PostID[storyFrameSC$NACorg == "SS9"]
 storyFrame = storyFrameSC[storyFrameSC$PostID %in% storyIDs,]
 tagFrame = tagFrameSC[tagFrameSC$PostID %in% storyIDs,]
