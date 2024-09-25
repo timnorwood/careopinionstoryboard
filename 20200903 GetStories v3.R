@@ -217,6 +217,7 @@ save(nacsData, file = "data\\2nacsData.rda")
 
 ## Master nacFrameSC 
 load(file = "data\\2nacFrameSC.rda")
+load(file = "data\\2nacsData.rda")
 
 # Update the master, adding any new tag or replacing with new data
 nacFrameSC = nacFrameSC %>%
@@ -224,11 +225,12 @@ nacFrameSC = nacFrameSC %>%
   bind_rows(nacsData)
 
 ### Add service level groupings from lookup
-nacLookup = read.csv(paste("lookups\\20230106 nacLookup.csv"), stringsAsFactors = FALSE, header=TRUE)
-# Add line to make upper/lower/title case
+nacLookup = read.csv(paste("lookups\\20240925 nacLookup.csv"), stringsAsFactors = FALSE, header=TRUE) %>% 
+  mutate(NACSname = str_to_sentence(NACSname))
 
 nacFrameSC = nacFrameSC %>% 
   select(-NACSgroup) %>%
+  mutate(NACSname = str_to_sentence(NACSname)) %>% 
   left_join(nacLookup) %>% 
   mutate(NACSgroup = ifelse(is.na(NACSgroup), "Other", NACSgroup))
 
@@ -239,6 +241,7 @@ save(nacFrameSC, file = "data\\2nacFrameSC.rda")
 
 # Get the latest master tagsData
 load(file = "data\\2tagFrameSC.rda")
+load(file = "data\\2tagsData.rda")
 
 tagData = tagsData %>% 
   mutate(tagName = str_to_sentence(str_trim(as.character(tagName))),
@@ -276,6 +279,8 @@ tagFrameSC = tagFrameSC %>%
 save(tagFrameSC, file = "data\\2tagFrameSC.rda")
 
 ################ storyFrameSC ########################
+
+load(file = "data\\2storyData.rda")
 
 ### Match on an overall polarity and criticality etc to storyFrame
 # Calculate overall polarity
