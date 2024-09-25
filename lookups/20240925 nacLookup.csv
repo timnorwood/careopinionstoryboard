@@ -9,11 +9,9 @@ Aberdeen Health and Care Village,Social Care
 Aberdeen Maternity Hospital,Maternity
 Aberdeen Royal Infirmary,Other
 Accident & Emergency,Emergency
-Accident & emergency,Emergency
 Accident & Emergency (Emergency Care),Emergency
 Accident and emergency,Emergency
 Acquired brain injury (under 65),
-Acute assessment unit,Emergency
 Acute Assessment Unit,Emergency
 Acute Assessment Unit (AAU),Emergency
 Acute Care,Other
@@ -26,6 +24,7 @@ Acute Medical Receiving Unit,Medicine
 Acute Medical Receiving Unit (AMRU),Emergency
 Acute Medical Unit,Medicine
 Acute Medical Unit (AMU),Medicine
+Acute Medical Unit (Ward 2),Medicine
 Acute Medicine,Medicine
 Acute Pain (Pain Clinic),Medicine
 Acute Receiving,Emergency
@@ -34,13 +33,13 @@ Acute Receiving Unit (Units 1-5),Emergency
 Acute Receiving Unit (Ward 2c),Emergency
 Acute Short Stay Medicine,Medicine
 Acute Stroke Unit,Medicine
+Acute Stroke Unit (Ward 6),Medicine
 Acute Stroke Unit (Ward 7),Medicine
 Acute Surgical Receiving Unit,Surgery
 "Acute/Medical Receiving Unit (50,51,53)",Emergency
 Acute/Rehabilitation Inpatient Ward,Medicine
 Adamson Hospital,Other
 Addiction Services,Medicine
-Addiction services,Medicine
 Addiction services (CADS) Stirling,Medicine
 Addiction Services NHS Fife,Medicine
 Addictions recovery team,Other
@@ -53,18 +52,16 @@ Adult Clinical Psychology,Mental Health
 Adult Community Mental Health Service,Mental Health
 Adult Critical Care Unit (ACCU),Medicine
 Adult Inpatient Psychiatric Unit - Ward 1,Mental Health
-Adult mental health,Mental Health
 Adult Mental Health,Mental Health
 Adult Mental Health (inpatient),Mental Health
 Adult Mental Health (New Craigs inpatients),Mental Health
 "Adult mental health (Wards 2,3)",Mental Health
 Adult Mental Health Services,Mental Health
-Adult mental health services,Mental Health
 Adult mental health wards,Mental Health
 Adult Physiotherapy Services,AHP
 Adult psychiatry,Mental Health
+Adult Psychological Therapies,Mental Health
 Adult Psychotherapy,Mental Health
-Adult wheelchair Clinic,AHP
 Adult Wheelchair Clinic,AHP
 Adults,Other
 Advanced Heart Failure Service,Medicine
@@ -125,7 +122,6 @@ Bellshill Home Support Service,Social Care
 Belmont Care Centre,Social Care
 Biggart Hospital,Other
 Bioengineering Clinic,AHP
-Bioengineering clinic,AHP
 Bioengineering clinic ,Community
 Birmingham Community Healthcare NHS Foundation Trust,Community
 Birmingham Community Healthcare NHS Trust,Other
@@ -155,7 +151,6 @@ Breast Feeding Support Service,Maternity
 Breast Services,Medicine
 Breast Surgery,Surgery
 Breastfeeding Support Service,Maternity
-Breastfeeding Support service,Maternity
 Breathing and lung problems,Medicine
 "Breathing and lung problems (Respiratory Wards 7a, 7b, 7c & 7d)",Medicine
 Breathing Space (Phoneline),Mental Health
@@ -182,7 +177,6 @@ Canniesburn Hospital,Other
 Cardiac Catherterisation,Medicine
 Cardiac Physiology,Medicine
 Cardiac Pre-Assessment,Medicine
-Cardiac rehabilitation,Medicine
 Cardiac Rehabilitation,Medicine
 Cardiac Surgery,Surgery
 Cardiology,Medicine
@@ -218,7 +212,7 @@ Care of the Elderly Mental Health,Mental Health
 Care of the Elderly Mental Health (Wards 19 & 20),Medicine
 Care of the Elderly/Elderly Medicine,Medicine
 Carrickstone House,Social Care
-Castle Mey Ward,Other
+Castle Mey Ward,Paediatrics
 Castle Suite,Social Care
 Castleview Day Care,Community
 Cataract Unit,Medicine
@@ -247,6 +241,7 @@ Children's Community Services,Community
 Children's Occupational Therapy,AHP
 Childrens Services,Paediatrics
 Children's services,Paediatrics
+Children's Speech & Language Therapy,AHP
 Children's Surgical Unit Ward 30,Surgery
 Children's Ward,Paediatrics
 Children's Ward 29,Paediatrics
@@ -268,11 +263,10 @@ Clinical Haematology (Ward 16),Medicine
 Clinical Haematology (Ward 4c),Medicine
 Clinical Intervention Unit,Medicine
 Clinical Investigation Unit,Medicine
-Clinical Investigations Unit,Other
+Clinical Investigations Unit,Medicine
 Clinical Nurse Specialist Teams,Other
 Clinical Oncology,Medicine
 Clinical Pharmacology,Other
-Clinical psychology,Other
 Clinical Psychology,Other
 Clinical Radiology (Diagnostic Radiology),Radiology
 Clinical Short Stay,Medicine
@@ -293,6 +287,8 @@ Community Based Services,Community
 Community Blood Service,Community
 Community Cardiac Specialist Service,Community
 Community Care & Treatment (Minor Injuries),Community
+Community Care and Treatment Service (CCATS) - North Locality,Community
+Community Care and Treatment Service (CCATS) -North Locality,Community
 Community Casualty Department,Community
 Community Child Health,Community
 Community Dental Practice,Dental
@@ -300,7 +296,7 @@ Community Dental Services ,Dental
 Community Equipment Store,Other
 "Community health (Physio, OT, SLT,Diet,Pod)",AHP
 Community health and Care Services,Community
-Community In-patient Wards,Community
+Community Hub,Community
 Community In-Patient Wards,Community
 Community In-patients Wards,Other
 Community Macmillan Services,Medicine
@@ -311,19 +307,16 @@ Community Maternity Unit,Maternity
 Community Medicine For The Elderly (In Patient),Community
 Community Mental Health,Mental Health
 Community Mental Health (Dundee),Mental Health
-Community mental health team,Mental Health
 Community Mental Health Team,Mental Health
 Community Mental Health Team (Adult),Mental Health
 Community Mental Health Team (CMHT) - East Ayrshire,Mental Health
 Community Mental Health Team (CMHT) - South Ayrshire,Mental Health
 Community Mental Health Team (Elderly),Mental Health
 Community mental health team outreach,Mental Health
-Community midwifery,Maternity
 Community Midwifery,Maternity
 Community Midwifery Unit,Maternity
 Community Midwives,Maternity
 Community Nursing,Community
-Community nursing,Community
 Community Nursing ,Community
 Community Nursing - East Ayrshire,Community
 Community Nursing - South Ayrshire,Community
@@ -334,7 +327,6 @@ Community Occupational Therapy,AHP
 Community Paediatrics,Paediatrics
 Community Palliative Care,Community
 Community Perinatal Mental Health Team,Mental Health
-Community psychiatric nursing,Mental Health
 Community Psychiatric Nursing,Mental Health
 Community Psychiatric Team,Mental Health
 Community Rehab,Community
@@ -344,14 +336,15 @@ Community Rehabilitation,Medicine
 Community Social Work Eastwood,Other
 Community Stroke Rehabilitation (In-Patient),Community
 Community support,Community
+Community Treatment & Care Centre (CTACS),Community
+Community Treatment and Care (CTAC),Community
 Community Treatment Centre for Brain Injury,Community
 Community/District Nursing Service,Community
 Communty Mental Health Team,Mental Health
 Complementary Therapy,Social Care
 Complex Nutrition Service/Dietetics,Medicine
-Consultant Led Unit,Other
+Consultant Led Unit,Maternity
 Continence advisory service,Primary care
-Continence service,AHP
 Continence Service,AHP
 Continence Services,Primary care
 Contoured Seating Review Clinic,Other
@@ -368,7 +361,7 @@ COVID screening,Covid
 Covid Vaccination Centre Moray,Covid
 Covid Vaccination Centre shire,Covid
 Covid Vaccination Programme,Covid
-Covid Vaccination Service,Other
+Covid Vaccination Service,Covid
 COVID-19 Testing Service,Covid
 COVID-19 Vaccination Service,Covid
 Crathes Ward,Mental Health
@@ -387,13 +380,12 @@ Day Care Unit (Ward 1c),Day Case
 Day Case Unit,Day Case
 Day Cases,Day Case
 Day Hospital,Community
-Day hospital,Community
 Day Hospital ( Older People),Community
+Day Infusion Unit,Medicine
 Day Intervention Unit,Day Case
 Day Medicine,Medicine
 Day Procedure Unit,Surgery
 Day Services,Other
-Day surgery,Surgery
 Day Surgery,Surgery
 Day surgery ,Surgery
 Day Surgery Unit,Surgery
@@ -410,7 +402,7 @@ Dental suite,Dental
 Dentistry,Dental
 Department of Medicine for Elderly,Medicine
 Department of Medicine for Elderly (Wards10 & 12),Medicine
-Dept of Scheduled Admissions,Other
+Dept of Scheduled Admissions,Hospital
 Dermatology,Medicine
 Dermatology (Skin Conditions),Medicine
 Dermatology (Skin Conditions) Ward 2a,Medicine
@@ -430,6 +422,7 @@ Diabetes service,Medicine
 Diabetes Specialist Nurse service,Medicine
 Diabetes/Endocrinology,Medicine
 Diabetic Care Team,Medicine
+Diabetic Eye Screening,Medicine
 Diabetic medicine,Medicine
 Diabetic Nursing clinic,Medicine
 Diabetic Outpatients,Medicine
@@ -441,9 +434,8 @@ Dietetics - East Ayrshire,AHP
 Dietetics and Nutrition,AHP
 Dirrans Centre,Community
 Dirrans Centre (including rehab),Community
-Discharge Hub,Other
+Discharge Hub,Hospital
 Discharge Lounge,Other
-Discharge lounge,Other
 District Nursing,Primary care
 District Nursing Team - Kilmarnock,Community
 District Nursing Teams - Kilmarnock,Community
@@ -457,14 +449,17 @@ Dumfries & Galloway Royal Infirmary,Other
 Dundee - Children & Young People’s Occupational Therapy,AHP
 Dundee - Children & Young Peoples Occupational Therapy,AHP
 Dundee City Council - Home Care - Locality Teams and Housing with Care - East,Social Care
+Dundee Community Podiatry,AHP
 Dundee Dental Hospital,Dental
 Dundee District Nursing,Community
 Dundee Enhanced Care at Home Services,Other
+Dundee Enhanced Care at Home Team (DECAHT),Community
 Dundee Health Visiting,Community
+Dundee Service,Community
 Dunfermline and West Fife Mainstream Home Care and Support Service,Social Care
 Dunnottar Ward,Mental Health
 Dunoon General Hospital,Other
-Dunvegan Ward,Other
+Dunvegan Ward,Paediatrics
 DVT Clinic,Community
 "Ear, Nose & Throat",Medicine
 "Ear, Nose & Throat ",Medicine
@@ -472,7 +467,6 @@ DVT Clinic,Community
 "Ear, Nose & Throat (ward 3b)",Surgery
 "Ear, Nose & Throat (Ward 9)",Surgery
 "Ear, Nose & Throat / Audiology",Medicine
-"Ear, nose and throat",Surgery
 "Ear, Nose and Throat",Surgery
 "Ear, Nose and Throat Outpatients Area 4",Surgery
 "Ear, nose, throat, head & neck surgery outpatients",Surgery
@@ -497,24 +491,25 @@ Elderly medicine,Medicine
 Elderly Medicine (Ward 1 and 2),Medicine
 "Elderly Medicine (ward K south, 2 & 3 Larkfield Unit)",Medicine
 Elderly Medicine (wards 14 & 15),Medicine
+"Elderly Medicine (wards 2a, 2b, 2c, 3a, 3c, 4c, 5c, 6a, 8a & 8c)",Medicine
 "Elderly Medicine (wards 2a, 2b, 2c, 3a, 3c, 4c, 5c, 8a & 8c)",Medicine
 "Elderly Medicine (wards 2b, 2c, 3a, 3c, 4c, 5c, 8a & 8c)",Medicine
 Elderly Medicine (wards 3-7 & 26),Medicine
+Elderly Medicine (wards 3-7 & 36),Medicine
 "Elderly Medicine (Wards 51, 52, 54,55, 57 & 8a)",Medicine
 "Elderly Medicine (Wards 51, 52, 54,55, 57, 8a & 2a)",Medicine
-Elderly mental health,Mental Health
 Elderly Mental Health,Mental Health
 Elderly Rehabilitation,AHP
 Elective Orthopaedics,Surgery
+Elective Orthopaedics (Ward 7),Surgery
+Elective Surgery (Ward 7 & 8),Surgery
 Ellen's Glen House,Other
 Ellisland Day Care,Community
 Emergency Ambulance,Emergency
-Emergency ambulance,Emergency
 Emergency Care,Emergency
 Emergency Care Ambulatory Service (ECAS),Emergency
-Emergency department,Emergency
-Emergency Department,Emergency
 Emergency Dental Treatment Centre Level 1,Dental
+Emergency Department,Emergency
 Emergency Medicine,Emergency
 Emergency Theatres,Emergency
 Endocrinology,Medicine
@@ -559,16 +554,17 @@ Gastroenterology (stomach and gut problems),Medicine
 "Gastroenterology (Stomach and gut problems) Wards 8b, 8c &8d",Medicine
 Gastroenterology (Stomach and Gut),Medicine
 Gastroenterology (Ward 10),Medicine
+GDENS (Grampian Emergency Dental Service),Dental
 Gender Based Violence Service,Other
 General Internal Medicine,Medicine
 General Medicine,Medicine
-General medicine,Medicine
 "General Medicine ( wards G North, G South, J North, J South & L South)",Medicine
 General Medicine (Lomond Ward),Medicine
 "General Medicine (Wards 2,10,12 and 17)",Medicine
 "General Medicine (Wards 3, 4, 5 &46)",Medicine
 General Medicine (Wards 5 & 8),Medicine
 General medicine (Wards 5d),Medicine
+"General Medicine (Wards 8, 10, 11, 14, 15, 18 & 27)",Medicine
 "General Medicine (wards 8, 10, 11, 14, 18 & 27)",Medicine
 General Medicine (Wards 9-12),Medicine
 General practices in Ayrshire & Arran,Primary care
@@ -585,10 +581,10 @@ General practices in Tayside,Primary care
 General Psychiatry,Mental Health
 General Psychiatry (Mental Health),Mental Health
 General Surgery,Surgery
-General surgery,Surgery
 "General Surgery (excl Vascular, Maxillofacial)",Surgery
 General Surgery (ward 4a),Surgery
 General Surgery (Ward 5),Surgery
+General Surgery (Ward 7 & 8),Surgery
 General Surgery (Ward 7),Surgery
 General Surgery (Wards 16-18),Surgery
 "General Surgery (wards 19, 20, 24, 26 &29)",Surgery
@@ -612,15 +608,15 @@ Glasgow Homeopathic Hospital,Other
 Glasgow Royal Infirmary,Other
 Glen O' Dee Hospital,Other
 Glen O'Dee Hospital,Other
+Glenrothes & Cowdenbeath,Community
 Glenrothes Hospital,Other
-GMED,Other
+GMED,Emergency
 GMED (Grampian Medical Emergency Department),Emergency
 Gmed Base (Medical Emergency Department),Other
 Golden Jubilee National Hospital,Other
 GP Acute Medicine,Primary care
 GP Out of Hours,Primary care
 GP Out of Hours (BECS),Primary care
-GP Out of Hours service,Primary care
 GP Out of Hours Service,Primary care
 GP out of hours service (LUCS),Primary care
 GP Out-of-Hours Emergency Service,Primary care
@@ -651,19 +647,18 @@ Hanover Care at Home / Housing Support Service - Dalry,Social Care
 HARP (Heart and Respiratory Patients),Medicine
 Health and Wellbeing Hub,Other
 Health Visiting,Community
-Health visiting,Community
-Health Visitors,Community
 Health Visiting Team,Community
+Health Visitors,Community
 Heart conditions,Medicine
 Heathfield Suite,AHP
 High Dependancy Unit,Medicine
-High dependency unit,Medicine
 High Dependency Unit,Medicine
 High Dependency Unit & Intensive Care Unit,Medicine
 High Dependency Unit (HDU),Medicine
 Highland,Other
 Highland Community Services,Community
 Highland Wheelchair and Seating service,AHP
+Home Birth Team,Maternity
 Home Care and Reablement Service,Social Care
 Home Care Service - Care at Home,Social Care
 Home Instead,Other
@@ -680,6 +675,7 @@ Hospital to home service,Community
 HRM Homecare Services Ltd,Social Care
 Huntlyburn Ward,Mental Health
 Hydrotherapy,AHP
+Hysteroscopy Services,Maternity
 IDEAS team,Other
 Imaging,Radiology
 Imaging (Xrays and Scans),Radiology
@@ -700,9 +696,9 @@ Integrated Assessment Team (IAT),Other
 Integrated Children's Nursing Team,Paediatrics
 Integrated Community Assessment and Support Service,Community
 "Integrated Older People's Service, Day Hospital",Other
+Integrated Rehabilitation Team,Community
 Intensive & Critical Care,Medicine
 Intensive Care,Medicine
-Intensive care unit,Medicine
 Intensive Care Unit,Medicine
 Intensive Care Unit (ICU),Medicine
 Intensive home treatment team,Community
@@ -725,9 +721,9 @@ Kidney medicine and dialysis,Medicine
 Kincardine Community Hospital,Community
 Kings Cross Health and Community Care Centre,Social Care
 Kings Cross Hospital,Other
+Kirkaldy & Postural Management,Community
 Kirklands Hospital,Other
 Kirklandside Hospital,Other
-Labour suite,Maternity
 Labour Suite,Maternity
 Labour suite maternity,Maternity
 Lady Home Cottage Hospital,Community
@@ -743,7 +739,6 @@ Learning Disability Occupational Therapy,AHP
 Learning Disability Transitions to Adult Services,Other
 Leith Community Treatment Centre,Community
 Lerwick Health Centre,Primary care
-Liaison psychiatry,Mental Health
 Liaison Psychiatry,Mental Health
 Liberton Hospital,Other
 Lightburn Hospital,Other
@@ -751,7 +746,10 @@ Little Cairnie Hospital,Other
 Livilands Resource Centre,Mental Health
 Lockhart Hospital,Community
 Logan Practice,Primary care
+Long Covid Rehabilitation,Covid
+Long Covid Service,Covid
 Lorn & Islands Hospital,Other
+Lothian Birth Centre,Maternity
 Lothian Community Services,Community
 Ludgate House Resource Centre,Social Care
 Lung Cancer Clinical Nurse Specialist Team,Medicine
@@ -768,12 +766,12 @@ Marie Curie Nursing Service - Care at Home,Social Care
 Maternity,Maternity
 Maternity & Paediatric Theatres,Surgery
 Maternity and Neonatal Psychological Intervention service,Maternity
+Maternity and Neonatal Psychological Intervention Services (MNPI),Maternity
 Maternity Assesment/Triage,Maternity
 Maternity Assessment,Maternity
 Maternity Assessment Unit,Maternity
 Maternity Assessment/Triage,Maternity
 Maternity care,Maternity
-maternity care,Maternity
 Maternity Care (outpatients),Maternity
 Maternity care (Ward 17),Maternity
 Maternity care (Ward 31),Maternity
@@ -811,9 +809,9 @@ Medical Paediatrics (Children's Medicine),Paediatrics
 Medical Physics,Medicine
 Medical/Gastroenterology (Ward 11),Medicine
 Medicine for the Elderly,Medicine
+Medicine for the Older Adult (wards 13 - 16),Medicine
 Medicine of the Elderly,Medicine
 Mental Health,Mental Health
-Mental health,Mental Health
 Mental Health (Wards 19 &20),Mental Health
 Mental Health Acute Assessment and Treatment Service (MHAATS),Mental Health
 Mental Health Acute Liaison,Mental Health
@@ -826,7 +824,6 @@ Mental Health for Older Adults (Lindean Ward),Mental Health
 Mental health for older adults. East & South,Mental Health
 Mental Health Hub,Mental Health
 Mental Health Inpatient Service,Mental Health
-Mental Health outpatients,Mental Health
 Mental Health Outpatients,Mental Health
 Mental Health outpatients (older adults),Mental Health
 Mental Health Physiotherapy,Mental Health
@@ -842,7 +839,6 @@ Minor Injuries,Emergency
 Minor Injuries Assessment Service,Emergency
 Minor Injuries Clinic,Emergency
 Minor Injuries Unit,Emergency
-Minor injuries unit,Emergency
 Minor Procedures Unit,Surgery
 Minor Surgery,Surgery
 Mobility and Rehabilitation Service,AHP
@@ -852,7 +848,9 @@ Montfield Hospital,Other
 Montrose House,Other
 Moray Public Dental Services,Dental
 Motherwell Home Support Service,Other
+Move Ahead - Community Mental Health and Wellbeing Service,Mental Health
 MSK Physio Team,AHP
+MSK Physiotherapy,AHP
 MSK Physiotherapy service (Musculoskeletal),AHP
 Muirpark (Short Term Rehab),AHP
 Musculoskeletal (MSK) Hub,Surgery
@@ -869,9 +867,11 @@ Neonatal Unit (Special Care Baby Unit),Maternity
 Neonatology,Maternity
 Nephrology,Medicine
 Neuro Rehabilitation,AHP
+Neurodevelopmental Service (NDS),Paediatrics
 Neurology,Medicine
 Neurology ( Wards 60-65),Medicine
 "Neurology (Brain, Spinal and Nerves)",Medicine
+Neurology (Ward 53 and 57),Medicine
 Neuropsychology,Medicine
 Neurosciences (DCN),Medicine
 Neurosurgery,Medicine
@@ -917,6 +917,7 @@ Nursing and Child Health,Paediatrics
 Nutrition,AHP
 Nutrition and Clinical dietetic services,AHP
 Observation Led Unit,Other
+Obstetric & Gynaecology Ultrasound,Maternity
 Obstetric Ultrasound/Scan,Maternity
 Obstetrics (Maternity care),Maternity
 Occupational Health,AHP
@@ -924,9 +925,8 @@ Occupational Therapy,AHP
 Occupational Therapy ,AHP
 Occupational therapy - East Ayrshire,AHP
 Occupational therapy - South Ayrshire,AHP
-Oesophageal Lab,Other
+Oesophageal Lab,Medicine
 Old Age Psychiatry,Mental Health
-Old age psychiatry,Mental Health
 Older Adult CMHT  Falkirk,Mental Health
 Older Adult CMHT  Stirling,Mental Health
 Older Adult CMHT – Stirling,Other
@@ -950,9 +950,10 @@ Ophthalmology Outpatients,Medicine
 Opthalmology,Surgery
 Opthamology,Medicine
 Oral and Maxillofacial Surgery,Surgery
-Oral and maxillofacial surgery,Surgery
 Oral and Maxillo-facial Surgery & Medicine,Surgery
+Oral Surgery - Level 3 and Level 4,Surgery
 Oral Surgery & Medicine,Medicine
+Oral Surgery & Medicine ( Wards 63),Hospital
 Oral Surgery & Medicine ( Wards 63-66),Surgery
 Oral Surgery/maxillofacial,Surgery
 Orthodontics,Dental
@@ -966,6 +967,7 @@ Orthopaedic Trauma Surgery,Surgery
 Orthopaedics,Surgery
 "Orthopaedics (Bones, Joints and Fractures)",Surgery
 Orthopaedics (ward 2a),Surgery
+Orthopaedics (Ward 3C),Surgery
 "Orthopaedics (Wards 10a, 10b, 10c &10d)",Surgery
 Orthopedic Rehab,Surgery
 Orthoptic Services,AHP
@@ -977,9 +979,9 @@ Out of Hours,Primary care
 Out of Hours GP,Primary care
 Out of Hours GP Service,Primary care
 Out of Hours Service,Primary care
-Out Patient Clinics,Outpatient
-Out Patient Department,Outpatient
-Out Patients Department,Outpatient
+Out Patient Clinics,Outpatients
+Out Patient Department,Outpatients
+Out Patients Department,Outpatients
 Out-of-Hours,Primary care
 Out-of-hours GP service,Primary care
 Outpatient  Parenteral Antibiotic Therapy (OPAT),Outpatients
@@ -993,21 +995,21 @@ Outpatients Department,Outpatients
 Outreach clinics,Social Care
 Overmills,Social Care
 Paediatric Assessment Unit (Children's Assessment Unit),Paediatrics
+Paediatric Dentistry - Level 5,Dental
 Paediatric Eye Clinic,Paediatrics
 Paediatric General clinic,Paediatrics
 Paediatric Intensive Care Unit (PICU) Ward 1D,Paediatrics
 Paediatric Ophthalmology,Other
 Paediatric orthopaedics,Paediatrics
 Paediatric Powered Wheelchair Clinic,Paediatrics
-Paediatric surgery,Paediatrics
 Paediatric Surgery,Paediatrics
 Paediatric surgery ( Wards 3A & 3B),Paediatrics
 Paediatric Unit,Paediatrics
 Paediatric Wheelchair Clinic,Paediatrics
-Paediatrics wards (19 & 20),Paediatrics
 Paediatrics,Paediatrics
 Paediatrics (Ward 15),Paediatrics
 Paediatrics Major Trauma team,Paediatrics
+Paediatrics wards (19 & 20),Paediatrics
 Pain clinic,Surgery
 Pain management,Medicine
 Pain management ,Medicine
@@ -1015,7 +1017,6 @@ Pain Management Service,AHP
 Pain Service,Medicine
 Pain Services ,Medicine
 Palliative Care,Medicine
-Palliative care,Medicine
 Palliative Care and Hospice,Social care
 Palliative Care Rehabilitation Service (Kylesku Ward),Medicine
 Palliative Care Team,Medicine
@@ -1024,6 +1025,7 @@ Papworth Hospital,Other
 Patient Opinion,Other
 Patient Transport,Patient Transport
 Patient Transport Service,Patient Transport
+Pelvic Floor Physiotherapy (Outpatients),AHP
 Perinatal & Infant Mental Health Community Nurses (Angus),Mental Health
 Perinatal & Infant Mental Health Community Nurses (Perth & Kinross),Mental Health
 Perinatal Mental Health Service,Mental Health
@@ -1049,7 +1051,6 @@ Physio,AHP
 Physio@Home,AHP
 Physiological Measurement,Community
 Physiotherapy,AHP
-physiotherapy,AHP
 Physiotherapy ,AHP
 Physiotherapy - East Ayrshire,AHP
 Physiotherapy - South Ayrshire,AHP
@@ -1057,15 +1058,16 @@ Physiotherapy (A&E),AHP
 Physiotherapy (inpatients),AHP
 Physiotherapy (mental health),AHP
 Physiotherapy (outpatients),AHP
+Physiotherapy Neurology Outpatients,AHP
 Physiotherapy Services,AHP
 Pitlochry Community Hospital,Community
 Planned Surgical Admissions Unit,Medicine
-Plastic surgery,Surgery
 Plastic Surgery,Surgery
 Plastic Surgery & Burns,Surgery
 "Plastic Surgery & Burns (wards 45, 47, 48 & 49)",Surgery
 Plastic Surgery Outpatients Area 3A,Surgery
 Play Service,AHP
+Play Services,Paediatrics
 Play Team,Paediatrics
 Podiatry,Medicine
 Podiatry - East Ayrshire,AHP
@@ -1074,16 +1076,16 @@ Powered Wheelchair clinic ,AHP
 Poynder View Day Centre,Mental Health
 Pre Admission Assessment,Emergency
 Pre Operative Assessment,Surgery
-Pre-assessment,Surgery
 Pre-Assessment,Surgery
 Pre-Assessment Clinic,Surgery
+Pre-op Assessment Unit,Surgery
 Pre-Op Assessments,Surgery
 Pre-Operative Assessment,Surgery
 Pre-Operative Assessment Clinic,Surgery
-Pre-Operative Assessment clinic,Surgery
-Pre-operative Assessment Clinic,Surgery
 Primary Care Occupational Therapy,Primary care
+Primary Care Out of Hours,Primary care
 Princess Alexandra Eye Pavillion,Medicine
+Prosthesis Clinic,AHP
 Prosthetics/Orthotics,AHP
 Psychiatry,Mental Health
 Psychiatry of Old Age,Mental Health
@@ -1093,6 +1095,7 @@ Psychological Therapy,Mental Health
 Psychology,Other
 Psychotherapy,Mental Health
 Public Dental Service (Tayside),Dental
+Pulmonary Rehabilitation,Community
 Pulteney House (Care Home),Social Care
 Queen Elizabeth University Hospital Glasgow,Other
 Queen Margaret Hospital,Other
@@ -1100,7 +1103,6 @@ Queens Care Home,Social Care
 Quit your Way,Other
 Quit Your Way Scotland,Other
 Radiography,AHP
-radiology,Radiology
 Radiology,Radiology
 Radiology (X-rays and Scans),Radiology
 Radiotherapy,Medicine
@@ -1121,7 +1123,6 @@ Rehabilitation,AHP
 Rehabilitation ,AHP
 Rehabilitation & Recovery,Other
 Rehabilitation (inpatient),AHP
-Rehabilitation and reablement,Medicine
 Rehabilitation and Reablement,Medicine
 Rehabilitation Clinic,AHP
 Rehabilitation Medicine,Medicine
@@ -1129,11 +1130,10 @@ Rehabilitation Services,AHP
 Renal,Medicine
 Renal (Nephrology),Medicine
 Renal (Ward 1),Medicine
-Renal (Ward 3c),Medicine
+Renal (Ward 3C),Medicine
 Renal and Transplant Services,Medicine
 "Renal and Transplant Services (Ward 4a, 4c & 4d)",Medicine
 "Renal and Transplant Services (Ward 4a, 4d)",Medicine
-Renal dialysis,Medicine
 Renal Dialysis,Medicine
 Renal Dialysis (Ward 6d),Medicine
 Renal Dialysis Unit,Medicine
@@ -1141,16 +1141,13 @@ Renal Inpatients (Ward 22),Medicine
 Renal Medicine,Medicine
 Renal Medicine (Kidney),Medicine
 Renal Outpatient Clinic,Medicine
-Renal outpatients,Medicine
 Renal Outpatients,Medicine
 Renal Supportive Care,Medicine
 Renal Unit,Medicine
-Renal unit,Medicine
 Reproductive Health (Simpson Centre),Medicine
 Reproductive Medicine,Medicine
 Respiratory Liaison Service (Outpatients),Medicine
 Respiratory Medicine,Medicine
-Respiratory medicine,Medicine
 Respiratory Medicine (Breathing and Lung Problems),Medicine
 Respiratory Medicine (Ward 12),Medicine
 Respiratory Medicine (Ward 17),Medicine
@@ -1173,6 +1170,7 @@ Royal Infirmary of Edinburgh at Little France,Other
 Royal Victoria Hospital,Other
 Rutherglen and Hamilton West,Other
 Same Day Admissions Unit,Emergency
+Same Day Admissions Unit (SDAU),Emergency
 Sandyford Clinic,Medicine
 School Nursing,Community
 Scottish Ambulance Service,Other
@@ -1182,8 +1180,8 @@ Scottish National Blood Transfusion Service,Other
 SEAL (Surgical Elective Admission Lounge),Surgery
 Self Management Pilot,Other
 Sexual and Reproductive Health,Community
+Sexual and Reproductive Health service,Medicine
 Sexual Health,Medicine
-sexual health,Medicine
 Sexual health & Reproductive services - Drumhar Health Centre,Community
 Sexual Health clinic,Community
 Shawpark Resource Centre,Social Care
@@ -1194,6 +1192,7 @@ Single point of contact service,Other
 Skin conditions,Medicine
 Skye Unit (Glasgow Adolescent Inpatient Unit),Mental Health
 Sleep Medicine,Medicine
+Social Prescribers,Community
 Social work services,Social Care
 Social work services (65+),Social Care
 Social Work teams - North,Social Care
@@ -1206,7 +1205,6 @@ South Ward,Other
 South West Scotland Breast Screening Centre,Medicine
 Southern General Hospital,Other
 Special Care Baby Unit,Paediatrics
-Special care baby unit,Paediatrics
 Special Needs in Pregnancy Team (SNIPS),Maternity
 Special Seating Clinic (Kirklands Hospital),AHP
 Specialist Assessment & Treatment Area (SATA),Emergency
@@ -1215,7 +1213,6 @@ Speech &  Language Therapy,AHP
 Speech & Language Therapy,AHP
 Speech & Language Therapy - East Ayrshire,AHP
 Speech and Language Therapy,AHP
-Speech and language therapy,AHP
 Speech and Language Therapy (Speech Therapy),AHP
 Spinal injuries unit,Surgery
 Spiritual Care/Chaplaincy,Other
@@ -1235,11 +1232,11 @@ Stracathro Hospital,Other
 Strathmore Hospice,Other
 Stroke,Medicine
 Stroke and Rehab,Medicine
-Stroke care,Medicine
 Stroke Care,Medicine
 "Stroke care (Ward 17, 31, 36)",Medicine
 Stroke care (Ward 33),Medicine
 Stroke care (ward 36),Medicine
+Stroke care (Wards 56 and 68),Medicine
 Stroke care (Wards 68),Medicine
 Stroke care and rehabilitation,Medicine
 Stroke Medicine,Medicine
@@ -1248,6 +1245,8 @@ Stroke Transition & Rehabilitation Team (START),Medicine
 Stroke Unit,Medicine
 Stroke Unit (Ward 11),Medicine
 Stroke/Care of the Elderly,Medicine
+Stroke/Medicine for the Older Adult,Medicine
+Supported Discharge Unit,Hospital
 Surgical Admissions Unit,Surgery
 Surgical Assessment Unit,Emergency
 Surgical Day Bed Unit,Surgery
@@ -1282,6 +1281,8 @@ Therapies & Rehab,AHP
 Thistle Suite,
 Thoracic Surgery,Surgery
 Thorney Croft,Social Care
+Thornton Gardens,Social Care
+TIA (Trans Ischaemic Attack) Clinic,Medicine
 Tippethill Hospital,Other
 Transplants,Surgery
 Trauma & orthopaedics,Surgery
@@ -1290,10 +1291,14 @@ Trauma & Orthopaedics (Wards 1 & 5),Surgery
 Trauma & orthopaedics (wards 21-23),Surgery
 Trauma & orthopaedics (wards 21-24),Surgery
 "Trauma & orthopaedics (wards 26, 27, 61 & 62 )",Surgery
-Trauma and orthopaedics,Surgery
 Trauma and Orthopaedics,Surgery
+Trauma Assessment Unit,Emergency
 Trauma/Orthopaedics (Ward 17),Surgery
 Treatment Room,Social Care
+Treatment Room (Clydesdale),Community
+Treatment Room (East Kilbride),Community
+Treatment Room (Hamilton),Community
+Treatment Room (Rutherglen and Cambuslang),Community
 Turriff Hospital,Community
 Udston Hospital,Other
 Upper Gastrointestinal (UGI),Medicine
@@ -1309,6 +1314,7 @@ Urology (Ward 28),Medicine
 urology (ward 3c),Medicine
 Urology (Ward 6),Surgery
 Urology( Ward 70),Medicine
+Vaccinations Service,Community
 Vale of Leven General Hospital,Other
 Vanguard Endoscopy Unit,Medicine
 Vascular,Medicine
@@ -1329,6 +1335,7 @@ Ward 23B - Surgical Neurology,Surgery
 Ward 25,Other
 Ward 3 - Medical,Medicine
 Ward 3 (medical),Medicine
+Ward 32 (Inpatients),Medicine
 Ward 32 Oncology Clinics (outpatients),Medicine
 Ward 34,
 Ward 4 - Acute Medical Receiving,Medicine
@@ -1343,6 +1350,7 @@ Ward B5,Medicine
 Ward B7,Medicine
 Weight Management,
 Wellbeing Service,
+West (Dunfermline & Rosyth),Community
 West Dunbartonshire Council Home Care Service,Social Care
 West Glasgow Maternity Care Centre,Maternity
 West of Scotland Major Trauma Ward (ward 1c),Surgery
@@ -1376,8 +1384,6 @@ Xray and Scans,Radiology
 Xrays & Scans,Radiology
 X-rays & Scans,Radiology
 Xrays & ultrasound,Radiology
-Xrays and scans,Radiology
 Xrays and Scans,Radiology
-X-rays and scans,Radiology
 X-rays and Scans,Radiology
 Xrays and Scans (Radiology),Radiology
