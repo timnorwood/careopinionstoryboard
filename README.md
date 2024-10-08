@@ -14,9 +14,9 @@ See this example - https://timnorwood.github.io/careopinionstoryboard/output/sto
 
 Storyboards use a range of charts and visualisations to summarise the information tagged to feedback. Every person who tells their story on Care Opinion is asked to create tags in response to three questions:
 
-What was good?
-What could be improved?
-How did you feel?
+*What was good?
+*What could be improved?
+*How did you feel?
 
 Each tag can be given a negative or positive polarity. If the storyteller chooses not to tag their story moderators may add tags.
 
