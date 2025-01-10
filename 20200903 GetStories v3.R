@@ -330,11 +330,10 @@ allFrame %>%
             "moderately critical", "strongly critical", "severely critical"),
           is.na(tagClass),
           !tagGroup %in% c("Cause of disease", "Emotion", "Condition","Part of body"),
-          Date > as.Date("2019-06-01")) %>% 
-  distinct(PostID, polarity, tagName, tagName_orig) %>% 
-   group_by(tagName_orig) %>%
-   dplyr::summarise(count = n()) %>%
-   write.csv((file = "lookups\\tagCHECK.csv"))
+          Date > as.Date("2022-06-01")) %>% 
+  distinct(PostID, tagName_orig) %>% 
+  count(tagName_orig) %>%
+  write.csv((file = "lookups\\tagCHECK.csv"))
 
 
 ### Write list of NACS services without a group - assign NACSgroup and add to nacLookup.csv
