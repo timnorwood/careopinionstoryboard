@@ -43,6 +43,7 @@ library(readxl)
 library(plotly)
 
 #opts_knit$set(root.dir="local//folder//address//here") #changes root directory in next chunk
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file()) #to set to root directory of e.g your project
 label = params$label
 DataFrom = params$DataFrom
 shpName = params$shpName
@@ -52,10 +53,10 @@ cloudsFromTxt = strftime(cloudsFrom, "%b %Y")
 ```
 
 ```{r setup2, include=FALSE}
-source('SPC charts9.R', echo=TRUE) #Run Control chart function
-source('Run charts6.R', echo=TRUE) #Run Run chart function
-source('SelectRunChart.R', echo=TRUE) #Run Select run chart function
-source('Download button.R', echo=TRUE) #For p-chart download button
+source('R\\SPC charts9.R', echo=TRUE) #Run Control chart function
+source('R\\Run charts6.R', echo=TRUE) #Run Run chart function
+source('R\\SelectRunChart.R', echo=TRUE) #Run Select run chart function
+source('R\\Download button.R', echo=TRUE) #For p-chart download button
 
 #critColours <- c("#D5E2E9","#ADCEA1","#D85677","#933B51","#602635","#442734","#38161E")
 
