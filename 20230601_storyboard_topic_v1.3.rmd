@@ -164,6 +164,7 @@ if (length(gg$x$data)>1) {
 ```{r barchart}
 gg_scot_data = storyFrame %>% 
   mutate(YearMonth = strftime(Date, "%Y-%m")) %>% 
+  filter(YearMonth != max(YearMonth)) %>%
   distinct(YearMonth, PostID) %>%
   count(YearMonth)
 
@@ -219,6 +220,7 @@ top_groups = gg_groups_data %>%
 
 gg_groups_data = gg_groups_data %>%
   mutate(name = ifelse(name %in% top_groups, name, "Other")) %>% 
+  filter(YearMonth != max(YearMonth)) %>%
   group_by(name,YearMonth) %>%
   summarise(n = sum(n)) %>%
   ungroup()
@@ -346,8 +348,8 @@ This word cloud shows the feeling that people report and the how common they are
 ```{r wcbb}
 tplot = allFrame %>%
   mutate(timerange = case_when(
-    Date.y >= as.Date("2022-04-01") & Date.y <= as.Date("2023-03-31") ~ "ctl",
-    Date.y >= as.Date("2023-04-01") & Date.y <= as.Date("2024-03-31") ~ "trt")) %>% 
+    Date.y >= as.Date("2023-04-01") & Date.y <= as.Date("2024-03-31") ~ "ctl",
+    Date.y >= as.Date("2024-04-01") & Date.y <= as.Date("2025-03-31") ~ "trt")) %>% 
   filter(!is.na(timerange),
          polarity == "-1",  # This will remove most Conditions, Parts of body etc  
          tagGroup != "Emotion") %>% 
@@ -369,8 +371,8 @@ tplot = allFrame %>%
 
 tplot$tagName = factor(tplot$tagName, levels = tplot$tagName[order(tplot$ctl,decreasing = TRUE)]) #reorder the factor
 
-plot_ly(tplot, x = ~tagName, type = 'bar', y = ~round(pct_ctl,2), name = '2022/23', marker = list(color = 'rgba(173, 65, 87,0.2)')) %>%
-  add_trace(y = ~round(pct_trt,2),  name = '2023/24', marker = list(color = 'rgb(173, 65, 87)')) %>%
+plot_ly(tplot, x = ~tagName, type = 'bar', y = ~round(pct_ctl,2), name = '2023/24', marker = list(color = 'rgba(173, 65, 87,0.2)')) %>%
+  add_trace(y = ~round(pct_trt,2),  name = '2024/25', marker = list(color = 'rgb(173, 65, 87)')) %>%
   layout(xaxis = list(title = '', tickangle = -45),
          yaxis = list(title = '% of all What could be better? tags'),
          margin = list(b = 150),
@@ -391,8 +393,8 @@ This chart shows the twenty most common tags with at least 5 occurrences. Signif
 ```{r wwg}
 tplot = allFrame %>%
   mutate(timerange = case_when(
-    Date.y >= as.Date("2022-04-01") & Date.y <= as.Date("2023-03-31") ~ "ctl",
-    Date.y >= as.Date("2023-04-01") & Date.y <= as.Date("2024-03-31") ~ "trt")) %>% 
+    Date.y >= as.Date("2023-04-01") & Date.y <= as.Date("2024-03-31") ~ "ctl",
+    Date.y >= as.Date("2024-04-01") & Date.y <= as.Date("2025-03-31") ~ "trt")) %>% 
   filter(!is.na(timerange),
          polarity == "1",  # This will remove most Conditions, Parts of body etc  
          tagGroup != "Emotion") %>% 
@@ -414,8 +416,8 @@ tplot = allFrame %>%
 
 tplot$tagName = factor(tplot$tagName, levels = tplot$tagName[order(tplot$ctl,decreasing = TRUE)]) #reorder the factor
 
-plot_ly(tplot, x = ~tagName, type = 'bar', y = ~round(pct_ctl,2), name = '2022/23', marker = list(color = 'rgba(125, 145, 105,0.3)')) %>%
-  add_trace(y = ~round(pct_trt,2),  name = '2023/24', marker = list(color = 'rgb(125, 145, 105)')) %>%
+plot_ly(tplot, x = ~tagName, type = 'bar', y = ~round(pct_ctl,2), name = '2023/24', marker = list(color = 'rgba(125, 145, 105,0.3)')) %>%
+  add_trace(y = ~round(pct_trt,2),  name = '2024/25', marker = list(color = 'rgb(125, 145, 105)')) %>%
   layout(xaxis = list(title = '', tickangle = -45),
          yaxis = list(title = '% of all What was good? tags'),
          margin = list(b = 150),
@@ -451,7 +453,7 @@ Storyboards use a range of charts and visualisations to summarise the tag inform
 
 <h4><b>Where can I find out more?</b></h4>
 
-If you would like to know more please contact the Healthcare Improvment Scotland Data, Measurement and Business Intelligence team at [hcis.DMBI-TEAM\@nhs.scot](mailto:hcis.DMBI-TEAM@nhs.scot){.email}.
+If you would like to know more please contact the Healthcare Improvement Scotland Data, Measurement and Business Intelligence team at [hcis.DMBI-TEAM\@nhs.scot](mailto:hcis.DMBI-TEAM@nhs.scot){.email}.
 
 <p style="text-align: center; padding: 10px;">
 
