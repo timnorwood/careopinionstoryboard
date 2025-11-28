@@ -22,19 +22,19 @@ skip = 0
 continue = TRUE
 
 while(continue){
-  cat('\r',"Getting stories",skip,"to",skip+99,"from Care Opinion")  
+  cat('\r',"Getting stories",skip,"to",skip+99,"from",GetFrom)  
   opinions = GET(paste0(
     "https://www.careopinion.org.uk/api/v2/opinions?submittedonafter=",GetFrom,"&take=100&skip=",
-    #"https://www.careopinion.org.uk/api/v2/opinions?take=100&skip=",
     skip),
     add_headers(Authorization = API2key))
   
   if(opinions$status_code == 401){ # if status code 401 (no authorisation) then stop
-    cat('\rError 401 (Unauthorised request) when getting stories',skip,"to",skip+99, '. Check you have the right API key') 
+    cat('\nError 401 (Unauthorised request) when getting stories',skip,"to",skip+99, '. Check you have the right API key') 
     continue = FALSE
   }
   
   if(length(content(opinions)) == 0){ # if there are no stories then stop
+    cat('\nNo more stories after',skip)
     continue = FALSE
   }
   
@@ -62,6 +62,8 @@ if(length(opinionList) > 0){
                          "Date" = as.Date(substr(unlist(lapply(opinionList, "[[", "dateOfSubmission")), 1, 10)),
                          "criticality" = unlist(lapply(opinionList, "[[", "criticality")),
                          "progress" = unlist(lapply(opinionList, "[[", "progress")),
+                         "authorRole" = unlist(lapply(opinionList, "[[", "authorRole")),
+                         "authorAgeGroup" = unlist(lapply(opinionList, "[[", "authorAgeGroup")),
                          stringsAsFactors = FALSE
                          )
 }
