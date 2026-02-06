@@ -49,8 +49,8 @@ cat(NROW(opinionList[opinionList == "Sorry! Something went wrong."]),'entries re
 opinionList = opinionList[opinionList != "Sorry! Something went wrong."]
 
 # Got an error later when some list elements contained one element not 15
-cat(NROW(opinionList[lengths(opinionList) != 15]),'more entries removed because they were empty \n') 
-opinionList = opinionList[lengths(opinionList) == 15]
+cat(NROW(opinionList[lengths(opinionList) != 16]),'more entries removed because they were empty \n') 
+opinionList = opinionList[lengths(opinionList) == 16]
 
 # Pick out the data we want from opinionList
 # if there are no new stories this entire bit is skipped
@@ -212,6 +212,35 @@ save(nacsData, file = "data\\2nacsData.rda")
 
 
 
+################ Get services data from story data ##################
+premData = NULL
+premList = NULL
+
+nacs = gsub("\\s","-",nacsList$NACSid) # gsub is because some nacs codes seem to be missing a dash, causing a url error 
+postid = nacsList$PostID
+
+for (id in 1:nrow(nacsList)) {
+  #for (id in 1:100) { 
+  cat('\rGetting information for story ', postid[id], "and service ", nacs[id],"        ")
+  prem = GET(paste0("https://www.careopinion.org.uk/api/v2/opinions/", postid[id],"/healthservices/", nacs[id],"/ratings"),
+             add_headers(Authorization = API2key))
+  
+  if (prem$status_code == 200){
+    if (length(content(prem)$ratings) > 0){
+      
+      premdf = data.frame(postID = postid[id],
+                          nacs = nacs[id],
+                          premQ = unlist(lapply(content(prem)$ratings, "[[", "questionText")),
+                          premScore = unlist(lapply(content(prem)$ratings, "[[", "score")),
+                          premScoreText = unlist(lapply(content(prem)$ratings, "[[", "scoreText"))
+                          )
+      premData = rbind(premData, premdf)
+    }
+  }
+  
+}
+
+save(premData, file = "data\\2premData.rda")
 
 ################ Create master data files ################ 
 
