@@ -164,7 +164,7 @@ if (length(gg$x$data)>1) {
 ```{r barchart}
 gg_scot_data = storyFrame %>% 
   mutate(YearMonth = strftime(Date, "%Y-%m")) %>% 
-  filter(YearMonth != max(YearMonth)) %>%
+ # filter(YearMonth != max(YearMonth)) %>%
   distinct(YearMonth, PostID) %>%
   count(YearMonth)
 
@@ -220,7 +220,7 @@ top_groups = gg_groups_data %>%
 
 gg_groups_data = gg_groups_data %>%
   mutate(name = ifelse(name %in% top_groups, name, "Other")) %>% 
-  filter(YearMonth != max(YearMonth)) %>%
+#  filter(YearMonth != max(YearMonth)) %>%
   group_by(name,YearMonth) %>%
   summarise(n = sum(n)) %>%
   ungroup()
