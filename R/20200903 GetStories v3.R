@@ -3,7 +3,7 @@
 ## The code gets stories and tagged information by using Care Opinions APIs. 
 ## See discussion at https://chrisbeeley.net/?p=904 about why API2 needs loops 
 
-#GetFrom = "2024-05-01"
+#GetFrom = "2025-01-19"
 
 library(tidyverse)
 library(readxl)
@@ -212,32 +212,61 @@ save(nacsData, file = "data\\2nacsData.rda")
 
 
 
-################ Get services data from story data ##################
+################ Get prem data from story data ##################
 premData = NULL
-premList = NULL
 
-nacs = gsub("\\s","-",nacsList$NACSid) # gsub is because some nacs codes seem to be missing a dash, causing a url error 
-postid = nacsList$PostID
+# nacs = gsub("\\s","-", nacsData$NACSid) # gsub is because some nacs codes seem to be missing a dash, causing a url error 
+# postid = nacsData$PostID
+# 
+# for (id in 1:nrow(nacs)) {
+#   #for (id in 1:100) { 
+#   cat('\rGetting information for story ', postid[id], "and service ", nacs[id],"        ")
+#   prem = GET(paste0("https://www.careopinion.org.uk/api/v2/opinions/", postid[id],"/healthservices/", nacs[id],"/ratings"),
+#              add_headers(Authorization = API2key))
+#   
+#   if (prem$status_code == 200){
+#     if (length(content(prem)$ratings) > 0){
+#       
+#       prem_content = content(prem)
+#       premdf = data.frame(postID = postid[id],
+#                           nacs = nacs[id],
+#                           premQ = unlist(lapply(prem_content$ratings, "[[", "questionText")),
+#                           premScore = unlist(lapply(prem_content$ratings, "[[", "score")),
+#                           premScoreText = unlist(lapply(prem_content$ratings, "[[", "scoreText"))
+#                           )
+#       premData = rbind(premData, premdf)
+#     }
+#   }
+#   
+}
 
-for (id in 1:nrow(nacsList)) {
-  #for (id in 1:100) { 
-  cat('\rGetting information for story ', postid[id], "and service ", nacs[id],"        ")
-  prem = GET(paste0("https://www.careopinion.org.uk/api/v2/opinions/", postid[id],"/healthservices/", nacs[id],"/ratings"),
-             add_headers(Authorization = API2key))
+## Find ratings links from opinionList so only GETing valid links - 
+## Quicker than GETing ratings for every post then checking if valid?
+
+ratings_links <- unlist(lapply(opinionList, function(op) {
+  links <- op[["links"]]
+  is_ratings <- vapply(links, function(l) l[["relation"]] == "ratings", logical(1))
+  vapply(links[is_ratings], function(l) l[["link"]], character(1))
+}), use.names = FALSE)
+
+for (lk in ratings_links) {
+  cat('\rGetting information for ', lk,"                             ")
+  prem = GET(lk, add_headers(Authorization = API2key))
   
   if (prem$status_code == 200){
     if (length(content(prem)$ratings) > 0){
       
-      premdf = data.frame(postID = postid[id],
-                          nacs = nacs[id],
-                          premQ = unlist(lapply(content(prem)$ratings, "[[", "questionText")),
-                          premScore = unlist(lapply(content(prem)$ratings, "[[", "score")),
-                          premScoreText = unlist(lapply(content(prem)$ratings, "[[", "scoreText"))
-                          )
+      prem_content = content(prem)
+      premdf = data.frame(postID = prem_content$opinionId,
+                          nacs = prem_content$healthserviceNacs,
+                          premQ = unlist(lapply(prem_content$ratings, "[[", "questionText")),
+                          premScore = unlist(lapply(prem_content$ratings, "[[", "score")),
+                          premScoreText = unlist(lapply(prem_content$ratings, "[[", "scoreText"))
+      )
       premData = rbind(premData, premdf)
+      
     }
   }
-  
 }
 
 save(premData, file = "data\\2premData.rda")
