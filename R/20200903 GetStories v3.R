@@ -3,7 +3,7 @@
 ## The code gets stories and tagged information by using Care Opinions APIs. 
 ## See discussion at https://chrisbeeley.net/?p=904 about why API2 needs loops 
 
-#GetFrom = "2025-01-19"
+#GetFrom = "2025-12-07"
 
 library(tidyverse)
 library(readxl)
@@ -13,6 +13,7 @@ API2key = Sys.getenv("API2key") # This is picked up from a .Renviron file in Doc
 #usethis::edit_r_environ() # Use this to edit .Renviron from Rstudio
 
 ################ Get new story data using API 2 ########################
+start_time = Sys.time()
 
 # produce empty list to lappend
 opinionList = list()
@@ -70,13 +71,15 @@ if(length(opinionList) > 0){
 
 save(storyData, file = "data\\2storyData.rda")
 
+cat("Time to get opinions:", Sys.time() - start_time)
 
 ################ Get tags data using API 2 ##############
+start_time = Sys.time()
 
 tagsData = NULL
 
 for (id in sort(storyData$PostID)) {
-  cat('\rGetting tag information for ',id)
+  cat('\rGetting tag information for',id)
   tags = GET(paste0("https://www.careopinion.org.uk/api/v2/opinions/",id,"/tags"),
              add_headers(Authorization = API2key))
   tagsdf = data.frame(PostID = rep(id,length(content(tags))),
@@ -85,14 +88,16 @@ for (id in sort(storyData$PostID)) {
              polarity = unlist(lapply(content(tags), "[[", "polarity"))
              )
   tagsData = rbind(tagsData, tagsdf)
-  Sys.sleep(0.15) # need to add this for the API limit of 5 requests per second
+  Sys.sleep(0.2) # need to add this for the API limit of 5 requests per second
 }
 cat('\n')
 
 save(tagsData, file = "data\\2tagsData.rda")
 
+cat("Time to get tags:", Sys.time() - start_time)
 
-############### Get services lookup data using API2 #################
+############### Get services (hospital) lookup data using API2 #################
+start_time = Sys.time()
 
 # produce empty list to lappend
 serviceList = list()
@@ -104,8 +109,8 @@ continue = TRUE
 while(continue){
   #while(skip <= 100000){
   service = GET(paste0(
-    #"https://www.careopinion.org.uk/api/v2/healthservices?type=hospital&addedAfter=",GetFrom,"&take=100&skip=",
-    "https://www.careopinion.org.uk/api/v2/healthservices?type=hospital&take=100&skip=",
+    "https://www.careopinion.org.uk/api/v2/healthservices?type=hospital&addedAfter=",GetFrom,"&take=100&skip=",
+    #"https://www.careopinion.org.uk/api/v2/healthservices?type=hospital&take=100&skip=",
     skip),
     add_headers(Authorization = API2key))
 
@@ -116,7 +121,7 @@ while(continue){
   serviceList = c(serviceList, content(service)) # add the stories to the list
   # increase skip, and repeat
   cat('\r',"Getting services", skip, "to",skip+99,"from Care Opinion")
-  Sys.sleep(0.1) # need to add this for the API limit of 5 requests per second
+  Sys.sleep(0.2) # need to add this for the API limit of 5 requests per second
   skip = skip + 100
 }
 cat('\n')
@@ -141,25 +146,16 @@ if(length(serviceList) > 0){
   )
 
   save(serviceData, file = "data\\2serviceData.rda")
-
-
-  ## Create updated serviceFrameSC
-  load(file = "data\\2serviceFrameSC.rda")
-
-  # Update the master, adding any new tag or replacing with new data
-  serviceFrameSC = serviceFrameSC %>%
-    anti_join(serviceData, by = c("NACS")) %>%
-    bind_rows(serviceData)
-
-  save(serviceFrameSC, file = "data\\2serviceFrameSC.rda")
-
 }
 
-################ Get services data from story data ##################
+cat("Time to get hospital information:", Sys.time() - start_time)
 
-# Extract nacs id from OpinionList
+################ Get services data from story data ##################
+start_time = Sys.time()
 
 nacsList = NULL
+
+# Extract nacs id from OpinionList
 for (j in 1:length(opinionList)) {
   idV = c()
   nacsV = c()
@@ -177,11 +173,10 @@ for (j in 1:length(opinionList)) {
 # Match story id with service information
 #nacsData = nacsData %>% left_join(serviceFrameSC)
 
-
 # Get nacs information using API2
 nacsInfo = NULL
 for (id in unique(nacsList$NACSid)) {
-  cat('\r Getting nacs information for ',id)
+  cat('\r Getting nacs information for',id)
   nacs = GET(paste0("https://www.careopinion.org.uk/api/v2/healthservices/",gsub("\\s", "%20",id)),
              add_headers(Authorization = API2key))
   
@@ -210,11 +205,13 @@ nacsData = nacsList %>% left_join(distinct(nacsInfo))
 
 save(nacsData, file = "data\\2nacsData.rda")
 
-
+cat("Time to get story service data:", Sys.time() - start_time)
 
 ################ Get prem data from story data ##################
-premData = NULL
+start_time = Sys.time()
 
+# premData = NULL
+# 
 # nacs = gsub("\\s","-", nacsData$NACSid) # gsub is because some nacs codes seem to be missing a dash, causing a url error 
 # postid = nacsData$PostID
 # 
@@ -238,19 +235,23 @@ premData = NULL
 #     }
 #   }
 #   
-}
+#}
 
 ## Find ratings links from opinionList so only GETing valid links - 
 ## Quicker than GETing ratings for every post then checking if valid?
 
-ratings_links <- unlist(lapply(opinionList, function(op) {
-  links <- op[["links"]]
-  is_ratings <- vapply(links, function(l) l[["relation"]] == "ratings", logical(1))
-  vapply(links[is_ratings], function(l) l[["link"]], character(1))
-}), use.names = FALSE)
+ratings_links <- unlist(
+  lapply(opinionList, function(op) {  # Take each item in opinionList
+    links <- op[["links"]] # Extract the list of links
+    is_ratings <- vapply(links, function(l) l[["relation"]] == "ratings", logical(1)) # Take each item in links and keep if it's a rating
+    vapply(links[is_ratings], function(l) l[["link"]], character(1)) # Extract the link value from each rating
+  }),
+  use.names = FALSE)
+
+premData = NULL
 
 for (lk in ratings_links) {
-  cat('\rGetting information for ', lk,"                             ")
+  cat('\rGetting PREM information for', gsub("https://www.careopinion.org.uk/api/v2","",lk),"                             ")
   prem = GET(lk, add_headers(Authorization = API2key))
   
   if (prem$status_code == 200){
@@ -271,7 +272,23 @@ for (lk in ratings_links) {
 
 save(premData, file = "data\\2premData.rda")
 
+cat("Time to get prem data:", Sys.time() - start_time)
+
+
+
 ################ Create master data files ################ 
+start_time = Sys.time()
+
+############## serviceFrameSC ################
+load(file = "data\\2serviceFrameSC.rda")
+
+# Update the master, adding any new tag or replacing with new data
+serviceFrameSC = serviceFrameSC %>%
+  anti_join(serviceData, by = c("NACS")) %>%
+  bind_rows(serviceData)
+
+save(serviceFrameSC, file = "data\\2serviceFrameSC.rda")
+
 
 ################ nacsFrameSC ##################
 
@@ -368,6 +385,7 @@ save(storyFrameSC, file = "data\\2storyFrameSC.rda")
 
 print("Data read and saved!")
 
+cat("Time to create masters:", Sys.time() - start_time)
 
 ################ Validate data #######################
 checkFromDate = as.Date("2024-03-01")
