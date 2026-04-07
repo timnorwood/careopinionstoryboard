@@ -3,7 +3,7 @@ library(tidyverse)
 library(readxl)
 library(httr)    # for GET
 
-GetFrom = "2026-03-15"
+#GetFrom = "2025-12-01"
 
 API2key = Sys.getenv("API2key") # This is picked up from a .Renviron file in Documents
 #usethis::edit_r_environ() # Use this to edit .Renviron from Rstudio
@@ -38,7 +38,7 @@ get_story_data <- function(request, from, api_key, sleep = 0.2) {
     if (cont$status_code == 200) {
       
       if(length(content(cont)) == 0){ # if there are no stories then stop
-        cat('\nNo more stories after',skip,"\n")
+        cat('\nNo more after',skip,"\n")
         continue = FALSE
       }
       
@@ -87,7 +87,7 @@ get_story_data <- function(request, from, api_key, sleep = 0.2) {
 
 # Get stories
 stories = get_story_data("opinions?submittedonafter=", 
-                         from = "2026-03-15", 
+                         from = GetFrom, 
                          API2key)
 storyData  <- stories$data
 storyurlERR <- stories$errors
@@ -96,7 +96,7 @@ save(storyData, file = "data\\3storyData.rda")
 
 # Get services information (hospitals only)
 service = get_story_data("healthservices?type=hospital&addedAfter=", 
-                          from = "2026-01-15", 
+                          from = GetFrom, 
                           API2key)
 serviceData  <- service$data
 serviceyurlERR <- service$errors
@@ -106,48 +106,48 @@ save(serviceData, file = "data\\3serviceData.rda")
 ################ Get links about tags, services, and prems etc from stories  ##############
 
 # Extract links from opinion data
-linksData= NULL
+linksData_list <- list()
+idx <- 1
 
-for (post in 1:length(opinionList)) {
+for (post in seq_along(opinionList)) {
+  post_id <- opinionList[[post]]$id
   
-  pid = c() # post id
-  rel = c() # link relation or the type of link (tags, rating etc)
-  lnk = c() # the link itself
-  lid = c() # link id
+  cat("\rGetting links for", post_id)
   
-  for (link in 1:NROW(opinionList[[post]]$links)) {
+  for (link in seq_along(opinionList[[post]]$links)) {
+    link_item <- opinionList[[post]]$links[[link]]
     
-    pid = opinionList[[post]]$id
-    rel = opinionList[[post]]$links[[link]]$relation
-    lnk = opinionList[[post]]$links[[link]]$link
-    lid = opinionList[[post]]$links[[link]]$id
+    linksData_list[[idx]] <- data.frame(PostID = post_id,
+                                        relation = link_item$relation,
+                                        link = link_item$link,
+                                        id = tolower(link_item$id),
+                                        stringsAsFactors = FALSE)
     
-    linksdf = data.frame(PostID = pid,
-                         relation = rel,
-                         link = lnk,
-                         id = lid)
-    
-    linksData = rbind(linksData, linksdf)
+    idx <- idx + 1
   }
 }
+
+linksData <- do.call(rbind, linksData_list)
 
 
 # Define a function to request information from
 get_tag_data <- function(links, type, api_key, sleep = 0.2) {
   
-  dataOut <- NULL
+  data_list <- list()   # store data frames here
   errOut <- c()
-  start_time = proc.time()
+  start_time <- proc.time()
+  idx <- 1
   
-  # Function to convert NUll results to NA
+  # Function to convert NULL results to NA
   nullToNA <- function(x) {
     x[sapply(x, is.null)] <- NA
-    return(x)}
+    x
+  }
   
   for (lk in links) {
     
-    cat('\rGetting', type, 'information for',
-        gsub("https://www.careopinion.org.uk/api/v2","",lk),
+    cat("\rGetting", type, "information for",
+        gsub("https://www.careopinion.org.uk/api/v2","", lk),
         "                                                ")
     
     res <- GET(lk, add_headers(Authorization = api_key))
@@ -164,11 +164,15 @@ get_tag_data <- function(links, type, api_key, sleep = 0.2) {
             nacs          = cont$healthserviceNacs,
             premQ         = unlist(lapply(cont$ratings, "[[", "questionText")),
             premScore     = unlist(lapply(cont$ratings, "[[", "score")),
-            premScoreText = unlist(lapply(cont$ratings, "[[", "scoreText"))
+            premScoreText = unlist(lapply(cont$ratings, "[[", "scoreText")),
+            id            = paste0(cont$opinionId, "-", cont$healthserviceNacs),
+            stringsAsFactors = FALSE
           )
           
-          dataOut <- rbind(dataOut, df)
-        }
+          data_list[[idx]] <- df
+          idx <- idx + 1
+          
+        } 
       }
       
       ### ---- TAGS ---- ###
@@ -181,10 +185,12 @@ get_tag_data <- function(links, type, api_key, sleep = 0.2) {
             PostID   = pid,
             tagName  = unlist(lapply(cont, "[[", "name")),
             tagGroup = unlist(lapply(cont, "[[", "group")),
-            polarity = unlist(lapply(cont, "[[", "polarity"))
+            polarity = unlist(lapply(cont, "[[", "polarity")),
+            stringsAsFactors = FALSE
           )
           
-          dataOut <- rbind(dataOut, df)
+          data_list[[idx]] <- df
+          idx <- idx + 1
         }
       }
       
@@ -202,10 +208,12 @@ get_tag_data <- function(links, type, api_key, sleep = 0.2) {
             NACSname = unlist(lapply(cont, "[[", "name")),
             NACtype  = unlist(lapply(cont, "[[", "type")),
             NACorg   = unlist(lapply(cont, "[[", "organisation")),
-            NACS     = unlist(lapply(cont, "[[", "siteNacs"))
+            NACS     = unlist(lapply(cont, "[[", "siteNacs")),
+            stringsAsFactors = FALSE
           )
           
-          dataOut <- rbind(dataOut, df)
+          data_list[[idx]] <- df
+          idx <- idx + 1
         }
       }
       
@@ -216,10 +224,18 @@ get_tag_data <- function(links, type, api_key, sleep = 0.2) {
     Sys.sleep(sleep)
   }
   
-  cat("\nGET failed for", length(errOut), "requests.\n")
-  cat("Time to get", type, "data:", difftime(proc.time()[3], start_time[3], units = "mins"), "mins\n\n")
+  # Bind everything once here
+  dataOut <- if (length(data_list) > 0) {
+    do.call(rbind, data_list)
+  } else {
+    NULL
+  }
   
-  return(list(data = dataOut, errors = errOut))
+  cat("\nGET failed for", length(errOut), "requests.\n")
+  cat("Time to get", type, "data:", 
+      difftime(proc.time()[3], start_time[3], units = "mins"), "mins\n\n")
+  
+  return(list(data = dataOut, errors = errOut, list = cont))
 }
 
 
@@ -227,10 +243,9 @@ get_tag_data <- function(links, type, api_key, sleep = 0.2) {
 prem_cont <- get_tag_data(links   = linksData$link[linksData$relation == "ratings"],
                          type    = "prem",
                          api_key = API2key,
-                         sleep   = 0.1)
+                         sleep   = 0.2)
 
 premData  <- prem_cont$data
-premurlERR <- prem_cont$errors
 save(premData, file = "data\\3premData.rda")
 
 # Get tag data
@@ -240,7 +255,6 @@ tags_cont <- get_tag_data(links   = linksData$link[linksData$relation == "tags"]
                          sleep   = 0.2)
 
 tagsData  <- tags_cont$data
-tagurlERR <- tags_cont$errors
 save(tagsData, file = "data\\3tagsData.rda")
 
 # Get nacs data
@@ -250,8 +264,17 @@ nacs_cont <- get_tag_data(links   = linksData$link[linksData$relation == "health
                              sleep   = 0.1)
 
 nacsData   <- nacs_cont$data
-nacsurlERR <- nacs_cont$errors
 save(nacsData, file = "data\\3nacsData.rda")
+
+
+ERRlog = list(story_errors = storyurlERR, 
+              service_errors = serviceyurlERR, 
+              prem_errors = prem_cont$errors, 
+              tags_errors = tags_cont$errors, 
+              nacs_errors = nacs_cont$errors)
+save(ERRlog, file = "data\\ErrorLog.rda")
+
+
 
 
 
@@ -259,6 +282,17 @@ save(nacsData, file = "data\\3nacsData.rda")
 ######################################################################
 
 start_time = Sys.time()
+
+############## tagFrameSC ################
+load(file = "data\\2premFrameSC.rda")
+
+# Update the master, adding any new tag or replacing with new data
+premFrameSC = premFrameSC %>%
+  anti_join(premData, by = c("PostID","nacs","premQ")) %>%
+  bind_rows(premData)
+
+save(premFrameSC, file = "data\\2premFrameSC.rda")
+
 
 ############## serviceFrameSC ################
 load(file = "data\\2serviceFrameSC.rda")
@@ -275,12 +309,15 @@ save(serviceFrameSC, file = "data\\2serviceFrameSC.rda")
 
 ## Master nacFrameSC 
 load(file = "data\\2nacFrameSC.rda")
-load(file = "data\\2nacsData.rda")
+load(file = "data\\3nacsData.rda")
+
+nacData = nacsData %>% 
+  mutate(PostID = as.numeric(as.character(PostID)))
 
 # Update the master, adding any new tag or replacing with new data
 nacFrameSC = nacFrameSC %>%
-  anti_join(nacsData) %>%
-  bind_rows(nacsData)
+  anti_join(nacData) %>%
+  bind_rows(nacData)
 
 ### Add service level groupings from lookup
 nacLookup = read.csv(paste("lookups\\20240925 nacLookup.csv"), stringsAsFactors = FALSE, header=TRUE) %>% 
@@ -299,7 +336,7 @@ save(nacFrameSC, file = "data\\2nacFrameSC.rda")
 
 # Get the latest master tagsData
 load(file = "data\\2tagFrameSC.rda")
-load(file = "data\\2tagsData.rda")
+load(file = "data\\3tagsData.rda")
 
 tagData = tagsData %>% 
   mutate(tagName = str_to_sentence(str_trim(as.character(tagName))),
@@ -338,7 +375,7 @@ save(tagFrameSC, file = "data\\2tagFrameSC.rda")
 
 ################ storyFrameSC ########################
 
-load(file = "data\\2storyData.rda")
+load(file = "data\\3storyData.rda")
 
 ### Match on an overall polarity and criticality etc to storyFrame
 # Calculate overall polarity
@@ -370,9 +407,13 @@ cat("Time to create masters:", Sys.time() - start_time)
 
 ################ Validate data #######################
 countcheck = storyFrameSC %>% filter(Date >= as.Date(GetFrom), Date < today()) %>% count() %>% pull()
-cat(sep = "",'\nAccording to storyFrameSC, the number of submitted stories since', format(as.Date(GetFrom),"%d %B %y"),'is', countcheck, '. Check this against Care Opinion site by searching on date but not service (not even NHS Scotland, we want the full subcription data) - https://www.careopinion.org.uk/opinions?submittedonafter=',GetFrom,' - there are ususally 1 or 2 stories missing from the storyFrameSC each month.')
+cat(sep = "",'\nAccording to storyFrameSC, the number of submitted stories since ', format(as.Date(GetFrom),"%d %B %y"),' is ', countcheck,
+    '. Check this against Care Opinion site by searching on date but not service (not even NHS Scotland, we want the full subcription data) - https://www.careopinion.org.uk/opinions?submittedonafter=',GetFrom,' - there are ususally 1 or 2 stories missing from the storyFrameSC each month.')
 
 
+countprems = premFrameSC %>% filter(premQ == "I was involved in choices about my care as much as I wanted to be") %>% nrow()
+cat(sep = "",'\nAccording to premFrameSC, the number of PREMS for "I was involved in choices about my care..." since ', format(as.Date(GetFrom),"%d %B %y")," is ", countprems,
+    ". Check this against Care Opinion site by selecting the NHS Scotland page (this is the closest to our subscription) - www.https://www.careopinion.org.uk/services/nhs-scotland - to see the number against the star ratings. These don't fully match but should be within a few dozen.")
 
 ################ Lookup maintainance ################
 
