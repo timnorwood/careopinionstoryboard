@@ -3,7 +3,7 @@ library(tidyverse)
 library(readxl)
 library(httr)    # for GET
 
-#GetFrom = "2025-12-01"
+#GetFrom = "2026-05-01"
 
 API2key = Sys.getenv("API2key") # This is picked up from a .Renviron file in Documents
 #usethis::edit_r_environ() # Use this to edit .Renviron from Rstudio
@@ -19,7 +19,7 @@ get_story_data <- function(request, from, api_key, sleep = 0.2) {
   skip = 0 # set skip at 0 and make continue TRUE until no stories are returned 
   continue = TRUE
   errOut <- c()
-  dataOut <- NULL
+  dataOut <- data.frame(NACS = character()) # Set up as empty dataframe with NACS column to avoid join error with master
   
   # Function to convert NUll results to NA
   nullToNA <- function(x) {
@@ -283,7 +283,7 @@ save(ERRlog, file = "data\\ErrorLog.rda")
 
 start_time = Sys.time()
 
-############## tagFrameSC ################
+############## premFrameSC ################
 load(file = "data\\2premFrameSC.rda")
 
 # Update the master, adding any new tag or replacing with new data
