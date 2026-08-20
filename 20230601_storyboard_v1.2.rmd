@@ -3,13 +3,6 @@ output:
   flexdashboard::flex_dashboard:
     logo: images//COlogo.png
     css: images//theme-COstoryboard.css
-    navbar:
-      - { 
-      title: "Scotland Storyboard", 
-      logo: ion-outline, 
-      href: "https://www.careopinionstoryboard.dx.am/scotland_storyboard.html", 
-      target: blank, align: right 
-      }
 params:
   hdr: hdr
   shpName: shpName
@@ -41,6 +34,8 @@ library(ggbeeswarm)
 library(d3wordcloud)
 library(readxl)
 library(plotly)
+library(ggstats)
+#library(hisrunchart)
 
 #opts_knit$set(root.dir="local//folder//address//here") #changes root directory in next chunk
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file()) #to set to root directory of e.g your project
@@ -210,16 +205,22 @@ gg
 
 Review the issues being highlighted in stories with some critical content. This should make it easy to identify recurring issues being fed-back about one location.
 
-```{r run-out, include=FALSE}
-out = NULL
-options(knitr.duplicate.label = 'allow')
-
-for (page_group in page_groups) {
-out = c(out, knit_child('20230608_storyboard_pages.Rmd'))
-}
+<!-- This code chunk creates the prem markdown pages using premFrame supplied -->
+```{r prem-pages, child='20260714_storyboard_prem.Rmd'}
 ```
 
-`r paste(knit_child(text = out), collapse = '')`
+<!-- This code chunk creates the specialty markdown pages for the specialty groups listed -->
+<!-- in page_groups, using storyFrame, tagFrame and allFrame supplied -->
+```{r run-out, echo=FALSE, results='asis'}
+options(knitr.duplicate.label = 'allow')
+
+out = NULL
+for (page_group in page_groups) {
+out = c(out, knit_child('20230608_storyboard_pages.Rmd', quiet = TRUE))
+}
+cat(out, sep = '\n')
+```
+
 
 # About
 
