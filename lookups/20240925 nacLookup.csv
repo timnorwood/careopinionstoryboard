@@ -1219,7 +1219,6 @@ Shawpark Resource Centre,Social Care
 Sheffield Teaching Hospitals NHS Foundation Trust,Other
 Short Stay Medicine,Medicine
 Short Stay Surgery,Surgery
-Short stay unit,
 Single point of contact service,Other
 Skin conditions,Medicine
 Skye Unit (Glasgow Adolescent Inpatient Unit),Mental Health
@@ -1296,7 +1295,6 @@ Surgical Skin Team,Surgery
 Surgical Unit,Surgery
 Tattoo Service,Other
 Tayside Community Services,Community
-TESS (Eating Disorder Team),
 The Cathcart Street Medical Practice,Primary care
 The Centre for Brain Injury Rehabilitation,Medicine
 The Edinburgh Crisis Centre,Mental Health
@@ -1313,7 +1311,6 @@ Theatres and recovery,Surgery
 "Theatres, Recovery and Anaesthetics",Surgery
 "Theatres, recovery and Anesthetics",Surgery
 Therapies & Rehab,AHP
-Thistle Suite,
 Thoracic Surgery,Surgery
 Thorney Croft,Social Care
 Thornton Gardens,Social Care
@@ -1337,7 +1334,6 @@ Treatment Room (Rutherglen and Cambuslang),Community
 Turriff Hospital,Community
 Udston Hospital,Other
 Upper Gastrointestinal (UGI),Medicine
-Upper Limb Service,
 Urgent Care Assessment Team (UCAT),Emergency
 Urgent Care Centre,Emergency
 Urgent Home Visiting Team,Other
@@ -1368,24 +1364,18 @@ Ward 2 (Adult Mental Health),Mental Health
 Ward 2 (Gastroenterology),Medicine
 Ward 23B - Surgical Neurology,Surgery
 Ward 25,Other
-Ward 26,
 Ward 3 - Medical,Medicine
 Ward 3 (medical),Medicine
 Ward 32 (Inpatients),Medicine
 Ward 32 Oncology Clinics (outpatients),Medicine
-Ward 34,
 Ward 4 - Acute Medical Receiving,Medicine
 Ward 6 - Medical & Short Stay Surgery,Medicine
 Ward 7 (Orthopaedics),Surgery
 Ward 8 (Orthopaedics),Surgery
 Ward 8/9 BMTU,Medicine
-Ward B1,
-Ward B3,
 Ward B4,Medicine
 Ward B5,Medicine
 Ward B7,Medicine
-Weight Management,
-Wellbeing Service,
 Wellbeing support team,Social Care
 West (Dunfermline & Rosyth),Community
 West Dunbartonshire Council Home Care Service,Social Care
@@ -1424,3 +1414,37 @@ Xrays & ultrasound,Radiology
 Xrays and Scans,Radiology
 X-rays and Scans,Radiology
 Xrays and Scans (Radiology),Radiology
+Orthopaedic ward b23,Medicine
+Labour ward,Maternity
+Postnatal (ward 22),Maternity
+"Older adult medicine (wards 51, 54 and 55)",Medicine
+Trauma and orthopaedics (14- 16),Surgery
+Nhs tayside gp out of hours service,Primary care
+Family support hub -  hamilton,Primary care
+Planned surgical ward (ward 36),Surgery
+Neurology (ward 53 and 67),Medicine
+"General surgery (wards 49, 63, 64, 65, 66,& 67)",Surgery
+Maternity triage,Maternity
+Maternity ultrasound,Maternity
+"Icst (community nursing, physiotherapy, occupational therapy) east kilbride",AHP
+Labour ward,Maternity
+Gynaecology/colposcopy outpatients,Maternity
+Gynaecology suite,Maternity
+Breastfeeding support workers,Maternity
+"Older adult rehabilitation wards (ward 2a, 6a, 6c, 8a & 8c)",Medicine
+General surgery (ward 4),Surgery
+Plastic surgery day case area,Surgery
+Adult audiology,AHP
+Health visiting rutherglen and cambuslang,Community
+Community alarm & telecare service,Community
+Surgical admissions unit - specialist surgery,Surgery
+Maternity care services,Maternity
+Community treatment and care service (ctac),Community
+Health visiting east kilbride,Community
+Family support hub -  east kilbride,Community
+Primary care mental health,Primary care
+Amu (alongside midwifery unit),Maternity
+Maternity neonatal psychological interventions  (mnpi),Maternity
+Maternity triage,Maternity
+Emergency surgical admissions,Surgery
+Post natal ward,Maternity
