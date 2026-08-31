@@ -220,7 +220,7 @@ top_groups = gg_groups_data %>%
 
 gg_groups_data = gg_groups_data %>%
   mutate(name = ifelse(name %in% top_groups, name, "Other")) %>% 
-#  filter(YearMonth != max(YearMonth)) %>%
+ # filter(YearMonth != max(YearMonth)) %>%
   group_by(name,YearMonth) %>%
   summarise(n = sum(n)) %>%
   ungroup()
@@ -432,6 +432,7 @@ plot_ly(tplot, x = ~tagName, type = 'bar', y = ~round(pct_ctl,2), name = '2024/2
 
 This chart shows the twenty most common tags with at least 5 occurrences. Significant changes are indicated with an asterix (*) next to the tag name.
 
+`r knit_child('20260714_storyboard_prem.Rmd')`
 
 # About
 

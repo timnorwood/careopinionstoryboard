@@ -1,9 +1,10 @@
 
 
-`r page_group` {data-orientation=rows}
+`r page_group`
 =========================================
 
-Row
+
+Column {style="height:180vh;overflow-y:auto;"}
 -----------------------------------------
 
 ### Are stories becoming more or less positive?
@@ -21,33 +22,6 @@ gg = SelectRunChart(sf, tf, paste0(label, " | ", page_group))
 gg
 ```
 
-### How do you feel? top 30 tags since `r strftime(cloudsFrom, "%b %Y")`
-
-```{r }
-# Select tag type (e.g emotion) and NACS group and dates
-
-emoFrame = allFrame %>%
-  filter(tagGroup == "Emotion", 
-         NACSgroup == page_group, 
-         Date.y > cloudsFrom
-         ) %>% 
-  distinct(PostID, tagGroup, tagName, NACSgroup) %>% 
-  count(tagName) %>%
-  arrange(desc(n)) %>% 
-  slice_head(n=30)
-
-if (nrow(emoFrame) > 0) {
-
-d3wordcloud(emoFrame$tagName, emoFrame$n, rotate.min = 0, rotate.max = 0, size.scale = "sqrt", tooltip = TRUE, padding = 2)
-#wordcloud2(data = data.frame(word = tagCount$tagName, freq = tagCount$polarity.n)) 
-  
-} else {print("Not enough data")}
-
-
-```
-
-Row
------------------------------------------
 
 ### What was good? What could be improved? tags since `r strftime(cloudsFrom, "%b %Y")`
 
@@ -91,21 +65,90 @@ plot_ly(t, x = ~tagName, y = ~Positives, type = 'bar', name = 'What was good', m
 } else {print("Not enough data")}
 ```
 
+
+### How do you feel? top 30 tags since `r strftime(cloudsFrom, "%b %Y")`
+
+```{r }
+# Select tag type (e.g emotion) and NACS group and dates
+
+emoFrame = allFrame %>%
+  filter(tagGroup == "Emotion", 
+         NACSgroup == page_group, 
+         Date.y > cloudsFrom
+         ) %>% 
+  distinct(PostID, tagGroup, tagName, NACSgroup) %>% 
+  count(tagName) %>%
+  arrange(desc(n)) %>% 
+  slice_head(n=30)
+
+if (nrow(emoFrame) > 0) {
+
+d3wordcloud(emoFrame$tagName, emoFrame$n, rotate.min = 0, rotate.max = 0, size.scale = "sqrt", tooltip = TRUE, padding = 2)
+#wordcloud2(data = data.frame(word = tagCount$tagName, freq = tagCount$polarity.n)) 
+  
+} else {print("Not enough data")}
+
+
+```
+
+
+### Overall PREM scores
+
+The overall person-centred care score is the total of scores for all six measures and can be interpreted as follow.
+
+<style>
+.prem-table table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.prem-table td, 
+.prem-table th {
+  border-top: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+</style>
+
+<div class="prem-table">
+<table>
+  <tr>
+    <th>Overall score</th>
+    <th>Interpretation</th>
+    <th>Suggested action</th>
+  </tr>
+  <tr>
+    <td>≥27</td>
+    <td>Excellent person-centred care</td>
+    <td>Sustain and share learning</td>
+  </tr>
+  <tr>
+    <td>24-26.9</td>
+    <td>Good person-centred care</td>
+    <td>Consolidate and strengthen</td>
+  </tr>
+  <tr>
+    <td>21-23.9</td>
+    <td>Person-centred care may need improvement</td>
+    <td>Prioritise targeted improvement</td>
+  </tr>
+  <tr>
+    <td><21</td>
+    <td>Priority to improve person-centred</td>
+    <td>Immediate improvement planning</td>
+  </tr>
+</table>
+</div>
+
+
+Column {style="height:180vh;overflow-y:auto;"}
+-----------------------------------------
+
+`r knit_child('20260714_storyboard_prem.Rmd')`
+
 ### Stories since `r strftime(cloudsFrom, "%b %Y")`
 ```{r}
-# allFrame$Story <- gsub("<p>|</p>"," ", allFrame$Story)
-# kwicFrame = allFrame %>%
-#   dplyr::rename(Date = Date.y) %>%
-#   filter(NACSgroup == page_group, Date > cloudsFrom) %>%
-#   distinct(PostID, Date, Story)
-# 
-# if (length(kwicFrame$Story) > 0) {
-#    
-# DT::datatable(kwicFrame,
-#   options = list(order = list(0, 'desc'), bPaginate = FALSE), 
-#   rownames = FALSE
-# )
-
 EmFrame = allFrame %>%
   dplyr::rename(Date = Date.y) %>%
   filter(tagGroup == "Emotion", NACSgroup == page_group, Date > cloudsFrom) %>% 
@@ -130,18 +173,27 @@ negFrame = allFrame %>%
   summarise(wcbb = paste0(tagName, collapse = ", ")) %>% 
   ungroup()
 
+prFrame = premFrame %>%
+  distinct(PostID, premScoreText, service) %>%
+  group_by(PostID) %>%
+  summarise(pr = paste0(sum(as.numeric(premScoreText)), "(", service, ")" , collapse = ", ")) %>% 
+  ungroup()
+
 DTFrame = EmFrame %>% 
   full_join(posFrame) %>% 
   full_join(negFrame) %>%  
+  left_join(prFrame) %>% 
   mutate(PostID = paste0('<a href=\"https://www.careopinion.org.uk/', PostID,'" target="_blank" rel="noopener noreferrer">', PostID,'</a>')) %>% 
-  select(PostID, Date, Title, wwg, wcbb, Em)
+  select(PostID, Date, Title, wwg, wcbb, Em, pr)
 
 if (length(DTFrame$PostID) > 0) {
   DT::datatable(DTFrame,
                 options = list(searchHighlight = TRUE, order = list(0, 'desc'), bPaginate = FALSE), 
-                colnames = c("PostID", "Date", "Title", "What was good?","What could be improved?","How did you feel?"),
+                colnames = c("PostID", "Date", "Title", "What was good?","What could be improved?","How did you feel?", "Overall PREM score (service)"),
                 rownames = FALSE,
                 escape = FALSE)
 
 } else {print("Not enough tags")}
 ```
+
+
