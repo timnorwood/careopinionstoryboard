@@ -174,10 +174,15 @@ negFrame = allFrame %>%
   ungroup()
 
 prFrame = premFrame %>%
-  distinct(PostID, premScoreText, service) %>%
-  group_by(PostID) %>%
-  summarise(pr = paste0(sum(as.numeric(premScoreText)), "(", service, ")" , collapse = ", ")) %>% 
-  ungroup()
+  #Sum scores for each service within a post
+  summarise(aggscore = sum(as.numeric(premScoreText)),
+            n = n(),
+            .by = c(PostID, service)) %>% 
+  #Only include when all 6 questions have been answered
+  filter(n == 6) %>% 
+
+  summarise(pr = paste0(aggscore, " (", service, ")" , collapse = ", "),
+           .by = c(PostID))
 
 DTFrame = EmFrame %>% 
   full_join(posFrame) %>% 
