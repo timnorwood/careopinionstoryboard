@@ -1,22 +1,29 @@
+##### Get data from Care Opinion - this can take ~1 hour #####
+GetFrom = as.character(lubridate::floor_date(Sys.Date() %m-% months(3), unit = "month")) # 3 month previous
+source( "R\\GetStories.R")
 
+##### Create Storyboards #####
 library(tidyverse)
-#library(rmarkdown)
 #devtools::install_github("jbkunst/d3wordcloud") # To install d3wordcloud from Github (no longer on CRAN)
-
-# Get data from Care Opinion - this can take ~1 hour
-GetFrom = "2023-06-01"
-source( "20200903 GetStories v3.R")
 
 # Load data
 load(file = "data\\2tagFrameSC.rda")
 load(file = "data\\2storyFrameSC.rda")
 load(file = "data\\2nacFrameSC.rda")
 load(file = "data\\2serviceFrameSC.rda") 
+load(file = "data\\2premFrameSC.rda")
+
+Qs = c("Staff took the time to get to know me and what was important to me",
+       "Staff involved the people who matter to me in the way that I wanted",
+       "Staff worked well together to organise my care",
+       "I was involved in choices about my care as much as I wanted to be","My care supported my wellbeing",
+       "I feel like staff listened to me")
+
 serviceFrameSC = serviceFrameSC %>% 
   filter(type == "hospital") %>% 
   rename(name = NACSname)
 tagFrameSC = tagFrameSC %>%
-  left_join(storyFrameSC %>% distinct(PostID, Date)) %>%
+  left_join(storyFrameSC %>% distinct(PostID, Date)) %>% # to add Date
   select(PostID, Date, polarity, tagName, tagGroup, tagClass, tagName_orig)
 storyFrameSC = storyFrameSC %>%
   left_join(nacFrameSC, by = ('PostID'))
