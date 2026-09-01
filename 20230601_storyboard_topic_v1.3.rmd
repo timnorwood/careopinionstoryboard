@@ -37,7 +37,12 @@ library(d3wordcloud)
 #library(wordcloud2)
 library(readxl)
 library(plotly)
-library(ggstats)
+
+#Send any files folders to the temp folder so they don't remain in output folder (need when running on local)
+knitr::opts_chunk$set(
+  cache = FALSE,
+  fig.path = paste0(tempdir(), "/figures/")
+)
 
 #opts_knit$set(root.dir="local//folder//address//here") #changes root directory in next chunk
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file()) #to set to root directory of e.g your project
@@ -433,7 +438,6 @@ plot_ly(tplot, x = ~tagName, type = 'bar', y = ~round(pct_ctl,2), name = '2024/2
 
 This chart shows the twenty most common tags with at least 5 occurrences. Significant changes are indicated with an asterix (*) next to the tag name.
 
-`r knit_child('20260714_storyboard_prem.Rmd')`
 
 # About
 
