@@ -22,7 +22,6 @@ tagFrameSC = tagFrameSC %>%
 storyFrameSC = storyFrameSC %>%
   left_join(nacFrameSC, by = ('PostID'))
 
-
 # Define more generic parameters for storyboard e.g. date ranges
 renderHBStoryboard <- function(hdr, label, shpName, OutName) {
   rmarkdown::render("20230601_storyboard_v1.2.Rmd", params = list(
