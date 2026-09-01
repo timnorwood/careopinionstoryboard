@@ -126,17 +126,38 @@ if (length(gg$x$data) == 1) {
   gg$x$data[[11]]$name <- "Monthly Percentage"
   gg$x$data[[12]]$name <- "Highlight"
 }
-```
 
-```{r pchart}
+# Correct chart data types
 if (length(gg$x$data)>1) {
 for (count in c(2:length(gg$x$data))){
 gg$x$data[[count]]$mode = "lines"
 }
 gg$x$data[[count]]$mode = "markers"
 }
-gg %>%
-  config(modeBarButtonsToAdd = list(dl_button))
+
+config(gg, modeBarButtonsToAdd = list(dl_button))
+```
+
+```{r barchart}
+gg_scot_data = storyFrame %>% 
+  mutate(YearMonth = strftime(Date, "%Y-%m")) %>% 
+ # filter(YearMonth != max(YearMonth)) %>%
+  distinct(YearMonth, PostID) %>%
+  count(YearMonth)
+
+ggb = gg_scot_data %>% 
+  ggplot(aes(x = YearMonth, y = n)) + 
+  geom_bar(stat = "identity", fill = "lightgray") +
+  theme(strip.background = element_blank(),
+        panel.background = element_rect(fill = "transparent"),
+        legend.title=element_blank(),
+        axis.text.x=element_text(angle = 90, hjust = 0)) +
+  xlab("") + ylab("No. of stories") +
+  scale_y_continuous(breaks = scales::pretty_breaks(n = 3))
+
+ggb = ggplotly(ggb)
+
+subplot(gg, ggb, nrows = 2, shareX = TRUE, titleY = TRUE, heights = c(0.85,0.15))
 ```
 
 ------------------------------------------------------------------------
