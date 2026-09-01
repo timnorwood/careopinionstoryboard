@@ -1,5 +1,6 @@
 ##### Get data from Care Opinion - this can take ~1 hour #####
-GetFrom = as.character(lubridate::floor_date(Sys.Date() %m-% months(3), unit = "month")) # 3 month previous
+GetFrom = as.Date("2024-06-01")
+#GetFrom = as.character(lubridate::floor_date(Sys.Date() %m-% months(3), unit = "month")) # 3 month previous
 source( "R\\GetStories.R")
 
 ##### Create Storyboards #####
