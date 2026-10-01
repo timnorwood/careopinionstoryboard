@@ -183,45 +183,91 @@ The first 20 months are used to calculate the centreline. New centrelines are ca
 ### Swarm plot of areas of improvement in critical stories by location from `r strftime(cloudsFrom, "%b %Y")`
 
 ```{r}
-allFrame$criticality <- factor(allFrame$criticality, 
-          levels = c("not known","not critical", "minimally critical", "mildly critical",
-                     "moderately critical", "strongly critical", "severely critical")) #Set the order of criticality
+# Define the ordering of criticality levels so they are displayed consistently
+# in filters, sorting, legends and plots
+allFrame$criticality <- factor(
+  allFrame$criticality,
+  levels = c(
+    "not known", "not critical", "minimally critical",
+    "mildly critical", "moderately critical",
+    "strongly critical", "severely critical"
+  )
+)
 
-n = allFrame %>% 
-  filter(criticality %in% c("moderately critical", "strongly critical", "severely critical"),
-         polarity == "-1",
-         !tagGroup %in% c("Cause of disease", "Emotion", "Condition","Part of body"),
-         !is.na(tagClass),
-         Date.y > cloudsFrom) %>%
-  mutate(NACS = as.character(NACS),
-         tagName = factor(tagName, levels = unique(c(levels(tagName),"Unclassified")))
-         ) %>%
-  mutate(NACS = ifelse(NACS == "", shpName, NACS), # Replace blank NACS with NHS board name
-         NACS = ifelse(is.na(name), NACS, name), # Replace NACS codes with hospital names from serviceData
-         ) %>%
-  distinct(PostID, Date.y, NACS, tagName, criticality, Title)   %>% # tagGroup removed 200813
-  arrange(desc(criticality), NACS, desc(tagName),PostID, Date.y)
+# Create dataset for visualisation
+# Keep only negative comments/posts with moderate or higher criticality,
+# remove unhelpful tag groups, exclude missing tag classifications,
+# and restrict to records after the specified date
+n <- allFrame %>%
+  filter(
+    criticality %in% c(
+      "moderately critical",
+      "strongly critical",
+      "severely critical"
+    ),
+    polarity == "-1",
+    !tagGroup %in% c(
+      "Cause of disease", "Emotion",
+      "Condition", "Part of body"
+    ),
+    !is.na(tagClass),
+    Date.y > cloudsFrom
+  ) %>%
 
+  # Ensure NACS is character and add an "Unclassified" level if needed
+  mutate(
+    NACS = as.character(NACS),
+    tagName = factor(
+      tagName,
+      levels = unique(c(levels(tagName), "Unclassified"))
+    )
+  ) %>%
 
-names(critColours) <- levels(n$criticality) # put names to the colours
+  # Replace missing or coded organisation names with more meaningful labels
+  mutate(
+    NACS = ifelse(NACS == "", shpName, NACS),    # Use NHS Board name if NACS is blank
+    NACS = ifelse(is.na(name), NACS, name)       # Use hospital/service name where available
+  ) %>%
 
-gg = ggplot(n,aes(NACS,tagName, colour = criticality)) +   
+  # Remove duplicate records so each post/tag combination appears once
+  distinct(PostID, Date.y, NACS, tagName, criticality, Title) %>%
+
+  # Order data for consistent plotting and tooltip generation
+  arrange(desc(criticality), NACS, desc(tagName), PostID, Date.y) |> 
+  
+  mutate(
+    hover_text = sprintf(
+      "Date: %s<br>%s<br>%s<br>%s<br>%s",
+      Date.y,
+      Title,
+      criticality,
+      NACS,
+      tagName
+    )
+  )
+
+# Match colours to criticality levels for plotting
+names(critColours) <- levels(n$criticality)
+
+# Create a beeswarm plot showing critical tags by organisation (NACS)
+# and colour-coded by criticality level
+gg <- ggplot(n, aes(NACS, tagName, colour = criticality, text = hover_text)) +
   geom_beeswarm() +
-  theme(axis.text.x=element_text(angle = 90, hjust = 1), panel.background = element_rect(fill = "transparent"),
-        legend.title=element_blank()) +
-  xlab("") + ylab("") +
-  scale_colour_manual(name = "grp",values = critColours) + coord_flip()
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1),
+    panel.background = element_rect(fill = "transparent"),
+    legend.title = element_blank()
+  ) +
+  xlab("") +
+  ylab("") +
+  scale_colour_manual(name = "grp", values = critColours) +
+  coord_flip()
 
-gg <- plotly_build(gg) %>% layout(legend=list(title=list(text=NA)))
-s = sort(unique(n$criticality)) #position in factorlist of used criticality scores
-tx = n %>%
-  arrange( desc(criticality), NACS, desc(tagName),PostID, Date.y) %>%
-  select(Date.y, Title,NACS, tagName, criticality)
+# Convert ggplot to an interactive Plotly chart and remove legend title
+gg <- ggplotly(gg, tooltip = "text") %>%
+  layout(legend = list(title = list(text = NA)))
 
-for (i in 1:length(s)){
-gg$x$data[[i]]$text <- paste("Date:",tx$Date.y[tx$criticality == s[i]],"<br>", tx$Title[tx$criticality == s[i]],"<br>", tx$criticality[tx$criticality == s[i]],"<br>", tx$NACS[tx$criticality == s[i]],"<br>", tx$tagName[tx$criticality == s[i]])
-}
-
+# Return interactive Plotly chart
 gg
 
 ```
